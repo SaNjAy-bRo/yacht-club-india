@@ -4,11 +4,15 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Anchor, MessageCircle, ChevronDown } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isOccasionsOpen, setIsOccasionsOpen] = useState(false);
+
+    const pathname = usePathname();
+    const isHomePage = pathname === '/';
 
     useEffect(() => {
         const handleScroll = () => {
@@ -31,8 +35,10 @@ export default function Header() {
         setIsOccasionsOpen(false);
     };
 
+    const headerClasses = `fixed top-0 z-50 w-full transition-all duration-300 ${isScrolled ? 'header-scrolled' : ''} ${!isHomePage && !isScrolled ? 'force-dark-text' : ''}`;
+
     return (
-        <header id="site-header" className={`fixed top-0 z-50 w-full transition-all duration-300 ${isScrolled ? 'header-scrolled' : ''}`}>
+        <header id="site-header" className={headerClasses}>
             <div className="header-wrap mx-auto max-w-7xl px-6 transition-all duration-300">
                 <nav className="flex h-20 items-center justify-between" aria-label="Primary">
                     <Link href="/" className="inline-flex items-center gap-3" onClick={closeMenu}>

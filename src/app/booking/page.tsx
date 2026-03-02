@@ -171,45 +171,7 @@ export default function BookingPage() {
                 </div>
             </section>
 
-            {/* Add-ons Section */}
-            <section className="section-surface py-24">
-                <div className="mx-auto max-w-7xl px-6" data-reveal="true">
-                    <h2 className="section-title">Add-ons</h2>
-                    <p className="section-subtitle">Enhance your charter with premium experiences, celebration elements, and curated services.</p>
-                    <div className="addons-grid mt-10">
-                        <article className="addon-card">
-                            <h3>Celebration Decor</h3>
-                            <p>Elegant theme setup with flowers, table styling, and custom celebration accents.</p>
-                            <span className="addon-price">From ₹____</span>
-                        </article>
-                        <article className="addon-card">
-                            <h3>Chef Curated Dining</h3>
-                            <p>Onboard dining experiences with plated menus or premium sharing formats.</p>
-                            <span className="addon-price">From ₹____</span>
-                        </article>
-                        <article className="addon-card">
-                            <h3>Photography & Reels</h3>
-                            <p>Professional photo and short-form reel coverage designed for social and memories.</p>
-                            <span className="addon-price">From ₹____</span>
-                        </article>
-                        <article className="addon-card">
-                            <h3>Live Music / DJ</h3>
-                            <p>Acoustic or DJ setup for private parties, birthdays, and evening charters.</p>
-                            <span className="addon-price">From ₹____</span>
-                        </article>
-                        <article className="addon-card">
-                            <h3>Premium Beverage Service</h3>
-                            <p>Curated beverage package tailored to your group size and celebration style.</p>
-                            <span className="addon-price">From ₹____</span>
-                        </article>
-                        <article className="addon-card">
-                            <h3>Proposal Setup</h3>
-                            <p>Romantic deck arrangement with florals, signage, and concierge coordination.</p>
-                            <span className="addon-price">From ₹____</span>
-                        </article>
-                    </div>
-                </div>
-            </section>
+
 
             {/* Features & Offers */}
             <section className="bg-[#F4F7FB] py-24">

@@ -162,6 +162,7 @@ select {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   padding-bottom: 0.35rem;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
 }
 
 .nav-link::after {
@@ -195,10 +196,17 @@ select {
   height: 14px;
   stroke-width: 2;
   transform: translateY(1px);
+  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.45));
+}
+
+#site-header.header-scrolled .nav-trigger .lucide,
+#site-header.header-scrolled .nav-trigger svg {
+  filter: none;
 }
 
 #site-header.header-scrolled .nav-link {
   color: var(--text-main);
+  text-shadow: none;
 }
 
 #site-header.header-scrolled #menu-toggle {
@@ -216,6 +224,39 @@ select {
   color: #10233D;
   border-color: rgba(200, 164, 93, 0.85);
   background: linear-gradient(135deg, #D9B97B, #C8A45D);
+}
+
+/* Force dark text for pages without a dark hero image (e.g. Booking) */
+#site-header.force-dark-text .nav-link,
+#site-header.force-dark-text #menu-toggle {
+  color: var(--text-main);
+  text-shadow: none;
+}
+
+#site-header.force-dark-text .nav-trigger .lucide,
+#site-header.force-dark-text .nav-trigger svg {
+  filter: none;
+}
+
+#site-header.force-dark-text #menu-toggle {
+  border-color: rgba(16, 35, 61, 0.28);
+}
+
+#site-header.force-dark-text .mobile-quick-btn {
+  color: var(--text-main);
+  border-color: rgba(16, 35, 61, 0.25);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+#site-header.force-dark-text .btn-outline {
+  color: var(--text-main) !important;
+  border-color: rgba(16, 35, 61, 0.24) !important;
+  text-shadow: none !important;
+}
+
+#site-header.force-dark-text .btn-outline:hover {
+  background: rgba(16, 35, 61, 0.08) !important;
+  border-color: rgba(16, 35, 61, 0.36) !important;
 }
 
 .dropdown-item {
@@ -266,6 +307,7 @@ select {
   border-color: rgba(23, 51, 77, 0.45);
 }
 
+/* We will also use text shadow on our outline buttons in the header so they stand out */
 .btn-outline {
   border: 1px solid rgba(16, 35, 61, 0.24);
   background: transparent;
@@ -279,7 +321,8 @@ select {
 
 #site-header:not(.header-scrolled) .btn-outline {
   color: #fff;
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.6);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
 }
 
 #site-header:not(.header-scrolled) .btn-outline:hover {
