@@ -1,0 +1,74 @@
+[
+    {
+        "id": "f1",
+        "title": "Yacht Name Placeholder",
+        "image": "/images/yacht.png",
+        "capacity": "___",
+        "duration": "___",
+        "price": "₹____",
+        "tag": {
+            "type": "new",
+            "label": "New"
+        }
+    },
+    {
+        "id": "f2",
+        "title": "Yacht Name Placeholder",
+        "image": "/images/yacht.png",
+        "capacity": "___",
+        "duration": "___",
+        "price": "₹____",
+        "tag": {
+            "type": "featured",
+            "label": "Featured"
+        }
+    },
+    {
+        "id": "f3",
+        "title": "Yacht Name Placeholder",
+        "image": "/images/yacht.png",
+        "capacity": "___",
+        "duration": "___",
+        "price": "₹____",
+        "tag": {
+            "type": "best",
+            "label": "Best Seller"
+        }
+    },
+    {
+        "id": "f4",
+        "title": "Yacht Name Placeholder",
+        "image": "/images/yacht.png",
+        "capacity": "___",
+        "duration": "___",
+        "price": "₹____",
+        "tag": {
+            "type": "new",
+            "label": "New"
+        }
+    },
+    {
+        "id": "f5",
+        "title": "Yacht Name Placeholder",
+        "image": "/images/yacht.png",
+        "capacity": "___",
+        "duration": "___",
+        "price": "₹____",
+        "tag": {
+            "type": "featured",
+            "label": "Featured"
+        }
+    },
+    {
+        "id": "f6",
+        "title": "Yacht Name Placeholder",
+        "image": "/images/yacht.png",
+        "capacity": "___",
+        "duration": "___",
+        "price": "₹____",
+        "tag": {
+            "type": "best",
+            "label": "Best Seller"
+        }
+    }
+]
