@@ -41,18 +41,18 @@ export default function Header() {
 
                     <ul className="hidden items-center gap-8 lg:flex">
                         <li><Link className="nav-link is-active" href="/">Home</Link></li>
-                        <li><Link className="nav-link" href="/#experiences">Experiences</Link></li>
-                        <li><Link className="nav-link" href="/#fleet">Fleet</Link></li>
+                        <li><Link className="nav-link" href="/experiences">Experiences</Link></li>
+                        <li><Link className="nav-link" href="/fleet">Fleet</Link></li>
                         <li className="relative group">
                             <button className="nav-link nav-trigger" aria-haspopup="true">
                                 <span>Occasions</span>
                                 <ChevronDown />
                             </button>
                             <div className="dropdown-panel absolute left-0 top-9 hidden min-w-52 rounded-xl border border-black/10 bg-white/95 p-2 group-hover:block group-focus-within:block">
-                                <Link href="/#occasions" className="dropdown-item">Proposals</Link>
-                                <Link href="/#occasions" className="dropdown-item">Birthdays</Link>
-                                <Link href="/#occasions" className="dropdown-item">Weddings</Link>
-                                <Link href="/#occasions" className="dropdown-item">Corporate</Link>
+                                <Link href="/occasions/proposals" className="dropdown-item">Proposals</Link>
+                                <Link href="/occasions/birthdays" className="dropdown-item">Birthdays</Link>
+                                <Link href="/occasions/weddings" className="dropdown-item">Weddings</Link>
+                                <Link href="/occasions/corporate" className="dropdown-item">Corporate</Link>
                             </div>
                         </li>
                         <li><Link className="nav-link" href="/#about">About</Link></li>
@@ -87,8 +87,8 @@ export default function Header() {
                     <div className="mobile-menu-panel rounded-2xl border border-black/10 bg-white/95 p-5">
                         <p className="mobile-menu-label">Navigation</p>
                         <Link className="mobile-link" href="/" onClick={closeMenu}>Home</Link>
-                        <Link className="mobile-link" href="/#experiences" onClick={closeMenu}>Experiences</Link>
-                        <Link className="mobile-link" href="/#fleet" onClick={closeMenu}>Fleet</Link>
+                        <Link className="mobile-link" href="/experiences" onClick={closeMenu}>Experiences</Link>
+                        <Link className="mobile-link" href="/fleet" onClick={closeMenu}>Fleet</Link>
                         <div className="mobile-dropdown">
                             <button
                                 className="mobile-link mobile-drop-trigger"
@@ -101,10 +101,10 @@ export default function Header() {
                                 <ChevronDown />
                             </button>
                             <div id="mobile-occ-list" className="mobile-drop-list" hidden={!isOccasionsOpen}>
-                                <Link href="/#occasions" className="mobile-sub-link" onClick={closeMenu}>Proposals</Link>
-                                <Link href="/#occasions" className="mobile-sub-link" onClick={closeMenu}>Birthdays</Link>
-                                <Link href="/#occasions" className="mobile-sub-link" onClick={closeMenu}>Weddings</Link>
-                                <Link href="/#occasions" className="mobile-sub-link" onClick={closeMenu}>Corporate</Link>
+                                <Link href="/occasions/proposals" className="mobile-sub-link" onClick={closeMenu}>Proposals</Link>
+                                <Link href="/occasions/birthdays" className="mobile-sub-link" onClick={closeMenu}>Birthdays</Link>
+                                <Link href="/occasions/weddings" className="mobile-sub-link" onClick={closeMenu}>Weddings</Link>
+                                <Link href="/occasions/corporate" className="mobile-sub-link" onClick={closeMenu}>Corporate</Link>
                             </div>
                         </div>
                         <Link className="mobile-link" href="/#about" onClick={closeMenu}>About</Link>
