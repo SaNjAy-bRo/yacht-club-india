@@ -74,17 +74,8 @@ export default function CheckoutPage() {
         return match ? parseInt(match[0], 10) : 2;
     };
 
-    const getAddonCost = () => {
-        if (!bookingData?.addon) return 0;
-        if (bookingData.addon === 'Celebration Decor') return 5000;
-        if (bookingData.addon === 'Premium Dining Setup') return 8000;
-        if (bookingData.addon === 'Photo / Reel Shoot') return 15000;
-        return 0;
-    };
-
     const basePrice = (yacht?.pricePerHour || 0) * getHours();
-    const addonCost = getAddonCost();
-    const subtotal = (basePrice + addonCost) * quantity;
+    const subtotal = basePrice * quantity;
 
     const handlePayment = (e: React.FormEvent) => {
         e.preventDefault();
@@ -96,7 +87,6 @@ export default function CheckoutPage() {
             time: bookingData?.time,
             guests: bookingData?.guests,
             duration: bookingData?.duration,
-            addon: bookingData?.addon,
             quantity,
             subtotal,
             customer: { firstName, lastName, email, phone, company, address, addressLine2, country, state, city, pincode },
@@ -195,13 +185,9 @@ export default function CheckoutPage() {
                                         </div>
                                     </div>
 
-                                    {/* Price */}
                                     <div className="text-right shrink-0">
                                         <p className="text-xl font-black font-jakarta text-textMain">₹{basePrice.toLocaleString()}</p>
                                         <p className="text-xs text-textMuted mt-1">{yacht.price}/hr × {getHours()} hrs</p>
-                                        {addonCost > 0 && (
-                                            <p className="text-xs text-gold mt-2 font-semibold">+ ₹{addonCost.toLocaleString()} ({bookingData?.addon})</p>
-                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -348,7 +334,7 @@ export default function CheckoutPage() {
                                         <p className="font-bold text-sm">{yacht.title}</p>
                                         <p className="text-xs text-white/50 mt-0.5">{formatDate(bookingData?.date)} • {formatTime(bookingData?.time)}</p>
                                     </div>
-                                    <p className="font-bold text-sm shrink-0">₹{(basePrice + addonCost).toLocaleString()}</p>
+                                    <p className="font-bold text-sm shrink-0">₹{basePrice.toLocaleString()}</p>
                                 </div>
                             )}
 

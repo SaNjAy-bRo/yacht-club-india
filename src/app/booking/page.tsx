@@ -20,7 +20,6 @@ export default function BookingPage() {
     const [time, setTime] = useState('');
     const [guests, setGuests] = useState('');
     const [duration, setDuration] = useState('2 Hours');
-    const [addon, setAddon] = useState('Standard Package');
 
     const galleryImages = [
         '/images/yacht.png',
@@ -64,13 +63,17 @@ export default function BookingPage() {
     const handleCheckout = (e: React.FormEvent) => {
         e.preventDefault();
 
+        if (!date || !time) {
+            alert('Please select both a Departure Date and Time before proceeding.');
+            return;
+        }
+
         const params = new URLSearchParams();
         if (selectedYacht) params.set('yachtId', selectedYacht.id);
         if (date) params.set('date', date);
         if (time) params.set('time', time);
         if (guests) params.set('guests', guests);
         if (duration) params.set('duration', duration);
-        if (addon) params.set('addon', addon);
 
         router.push(`/checkout?${params.toString()}`);
     };
@@ -141,15 +144,6 @@ export default function BookingPage() {
                                     </select>
                                 </label>
                             </div>
-                            <label className="booking-field">
-                                <span>Add-ons</span>
-                                <select value={addon} onChange={(e) => setAddon(e.target.value)}>
-                                    <option value="Standard Package">Standard Package</option>
-                                    <option value="Celebration Decor">Celebration Decor</option>
-                                    <option value="Premium Dining Setup">Premium Dining Setup</option>
-                                    <option value="Photo / Reel Shoot">Photo / Reel Shoot</option>
-                                </select>
-                            </label>
                             <button type="submit" className="btn-gold btn-icon booking-submit w-full mt-2 flex justify-center" style={{ width: '100%' }}>
                                 <Anchor className="w-5 h-5" />
                                 <span>Proceed to Checkout</span>
