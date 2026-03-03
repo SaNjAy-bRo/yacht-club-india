@@ -4,12 +4,23 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Anchor, Instagram, Play, Ship, Waves, Camera, Sunset, ShieldCheck, Utensils, Clock3, Gift } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { useRouter } from 'next/navigation';
 
 import faqsData from '@/data/faqs.json';
+import fleetData from '@/data/fleet.json';
 
 export default function BookingPage() {
+    const router = useRouter();
     const [mainImg, setMainImg] = useState('/images/yacht.png');
     const [openFaq, setOpenFaq] = useState<string | null>(null);
+    const [selectedYacht, setSelectedYacht] = useState<any>(null);
+
+    // Form State
+    const [date, setDate] = useState('');
+    const [time, setTime] = useState('');
+    const [guests, setGuests] = useState('');
+    const [duration, setDuration] = useState('2 Hours');
+    const [addon, setAddon] = useState('Standard Package');
 
     const galleryImages = [
         '/images/yacht.png',
@@ -31,11 +42,37 @@ export default function BookingPage() {
         }, { threshold: 0.1 });
 
         revealEls.forEach((el) => io.observe(el));
+
+        // Load dynamic yacht data from URL params if present
+        const searchParams = new URLSearchParams(window.location.search);
+        const yachtId = searchParams.get('yachtId');
+        if (yachtId) {
+            const foundYacht = fleetData.find(y => y.id === yachtId);
+            if (foundYacht) {
+                setSelectedYacht(foundYacht);
+                setMainImg(foundYacht.image);
+            }
+        }
+
         return () => io.disconnect();
     }, []);
 
     const toggleFaq = (id: string) => {
         setOpenFaq(openFaq === id ? null : id);
+    };
+
+    const handleCheckout = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        const params = new URLSearchParams();
+        if (selectedYacht) params.set('yachtId', selectedYacht.id);
+        if (date) params.set('date', date);
+        if (time) params.set('time', time);
+        if (guests) params.set('guests', guests);
+        if (duration) params.set('duration', duration);
+        if (addon) params.set('addon', addon);
+
+        router.push(`/checkout?${params.toString()}`);
     };
 
     return (
@@ -68,54 +105,54 @@ export default function BookingPage() {
 
                     <aside id="booking-form" className="booking-panel" data-reveal="true">
                         <p className="booking-label">Yacht Booking</p>
-                        <h1 className="booking-title">Yacht Name Placeholder</h1>
+                        <h1 className="booking-title">{selectedYacht ? selectedYacht.title : 'Yacht Name Placeholder'}</h1>
                         <div className="mt-3 flex flex-wrap gap-2 text-xs">
-                            <span className="badge">Up to ___ guests</span>
-                            <span className="badge">___ hrs</span>
+                            <span className="badge">Up to {selectedYacht ? selectedYacht.capacity.replace('Up to ', '').replace(' guests', '') : '___'} guests</span>
+                            <span className="badge">{selectedYacht ? selectedYacht.duration.replace(' hrs', '') : '___'} hrs</span>
                             <span className="badge">Crew included</span>
                         </div>
-                        <p className="booking-price mt-5">Starting from ₹____ <span>/ hour</span></p>
+                        <p className="booking-price mt-5">Starting from {selectedYacht ? selectedYacht.price : '₹____'} <span>/ hour</span></p>
                         <p className="booking-copy mt-4">Select your date and departure time to reserve this yacht. Final itinerary and add-ons can be customized with concierge support.</p>
 
-                        <form className="mt-7 space-y-4">
+                        <form className="mt-7 space-y-4" onSubmit={handleCheckout}>
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <label className="booking-field">
                                     <span>Departure Date</span>
-                                    <input type="date" />
+                                    <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
                                 </label>
                                 <label className="booking-field">
                                     <span>Departure Time</span>
-                                    <input type="time" />
+                                    <input type="time" value={time} onChange={(e) => setTime(e.target.value)} required />
                                 </label>
                             </div>
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <label className="booking-field">
                                     <span>Guests</span>
-                                    <input type="number" min="1" placeholder="No. of guests" />
+                                    <input type="number" min="1" placeholder="No. of guests" value={guests} onChange={(e) => setGuests(e.target.value)} required />
                                 </label>
                                 <label className="booking-field">
                                     <span>Duration</span>
-                                    <select>
-                                        <option>2 Hours</option>
-                                        <option>3 Hours</option>
-                                        <option>4 Hours</option>
-                                        <option>Sunset Slot</option>
-                                        <option>Custom</option>
+                                    <select value={duration} onChange={(e) => setDuration(e.target.value)}>
+                                        <option value="2 Hours">2 Hours</option>
+                                        <option value="3 Hours">3 Hours</option>
+                                        <option value="4 Hours">4 Hours</option>
+                                        <option value="Sunset Slot">Sunset Slot</option>
+                                        <option value="Custom">Custom</option>
                                     </select>
                                 </label>
                             </div>
                             <label className="booking-field">
                                 <span>Add-ons</span>
-                                <select>
-                                    <option>Standard Package</option>
-                                    <option>Celebration Decor</option>
-                                    <option>Premium Dining Setup</option>
-                                    <option>Photo / Reel Shoot</option>
+                                <select value={addon} onChange={(e) => setAddon(e.target.value)}>
+                                    <option value="Standard Package">Standard Package</option>
+                                    <option value="Celebration Decor">Celebration Decor</option>
+                                    <option value="Premium Dining Setup">Premium Dining Setup</option>
+                                    <option value="Photo / Reel Shoot">Photo / Reel Shoot</option>
                                 </select>
                             </label>
-                            <button type="button" className="btn-gold btn-icon booking-submit w-full mt-2">
+                            <button type="submit" className="btn-gold btn-icon booking-submit w-full mt-2 flex justify-center" style={{ width: '100%' }}>
                                 <Anchor className="w-5 h-5" />
-                                <span>Book Now</span>
+                                <span>Proceed to Checkout</span>
                             </button>
                         </form>
                     </aside>

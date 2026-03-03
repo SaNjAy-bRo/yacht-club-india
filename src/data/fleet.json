@@ -1,14 +1,15 @@
 [
     {
-        "id": "f1",
-        "title": "Yacht Name Placeholder",
+        "id": "test-yacht",
+        "title": "Test Royal Yacht",
         "image": "/images/yacht.png",
-        "capacity": "___",
-        "duration": "___",
-        "price": "₹____",
+        "capacity": "Up to 15",
+        "duration": "2",
+        "price": "₹10,000",
+        "pricePerHour": 10000,
         "tag": {
             "type": "new",
-            "label": "New"
+            "label": "Demo Yacht"
         }
     },
     {

@@ -4,6 +4,7 @@ import { Anchor } from 'lucide-react';
 import { Button } from './Button';
 
 interface FleetCardProps {
+    id: string;
     title: string;
     image: string;
     capacity: string;
@@ -15,7 +16,7 @@ interface FleetCardProps {
     };
 }
 
-export function FleetCard({ title, image, capacity, duration, price, tag }: FleetCardProps) {
+export function FleetCard({ id, title, image, capacity, duration, price, tag }: FleetCardProps) {
     return (
         <article className="fleet-card">
             <div className="fleet-head">
@@ -35,7 +36,7 @@ export function FleetCard({ title, image, capacity, duration, price, tag }: Flee
             </div>
             <div className="fleet-meta-row mt-3">
                 <p className="card-meta">Starting from {price}</p>
-                <Button href="/booking" variant="gold" className="fleet-book-btn" icon={Anchor}>
+                <Button href={`/booking?yachtId=${id}`} variant="gold" className="fleet-book-btn" icon={Anchor}>
                     Book Now
                 </Button>
             </div>
