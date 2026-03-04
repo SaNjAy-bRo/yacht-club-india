@@ -37,12 +37,16 @@ export default function Header() {
 
     const headerClasses = `fixed top-0 z-50 w-full transition-all duration-300 ${isScrolled ? 'header-scrolled' : ''} ${!isHomePage && !isScrolled ? 'force-dark-text' : ''}`;
 
+    // Determine which logo to show
+    const isLightLogo = isHomePage && !isScrolled;
+    const logoSrc = isLightLogo ? '/images/logo-dark-highres.png' : '/images/logo-light-highres.png';
+
     return (
         <header id="site-header" className={headerClasses}>
             <div className="header-wrap mx-auto max-w-7xl px-6 transition-all duration-300">
                 <nav className="flex h-20 items-center justify-between" aria-label="Primary">
                     <Link href="/" className="inline-flex items-center gap-3" onClick={closeMenu}>
-                        <Image src="/images/logo.png" alt="Yacht Club India" width={140} height={40} className="h-10 w-auto" priority />
+                        <Image src={logoSrc} alt="Yacht Club India" width={140} height={40} className="h-10 w-auto object-contain" priority />
                     </Link>
 
                     <ul className="hidden items-center gap-8 lg:flex">
