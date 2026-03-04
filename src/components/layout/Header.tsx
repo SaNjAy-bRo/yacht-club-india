@@ -49,6 +49,7 @@ export default function Header() {
                         <li><Link className="nav-link is-active" href="/">Home</Link></li>
                         <li><Link className="nav-link" href="/experiences">Experiences</Link></li>
                         <li><Link className="nav-link" href="/fleet">Fleet</Link></li>
+                        {/* Occasions hidden for now
                         <li className="relative group">
                             <button className="nav-link nav-trigger" aria-haspopup="true">
                                 <span>Occasions</span>
@@ -61,6 +62,7 @@ export default function Header() {
                                 <Link href="/occasions/corporate" className="dropdown-item">Corporate</Link>
                             </div>
                         </li>
+                        */}
                         <li><Link className="nav-link" href="/#about">About</Link></li>
                         <li><Link className="nav-link" href="/#contact">Contact</Link></li>
                     </ul>
@@ -95,6 +97,7 @@ export default function Header() {
                         <Link className="mobile-link" href="/" onClick={closeMenu}>Home</Link>
                         <Link className="mobile-link" href="/experiences" onClick={closeMenu}>Experiences</Link>
                         <Link className="mobile-link" href="/fleet" onClick={closeMenu}>Fleet</Link>
+                        {/* Occasions hidden for now
                         <div className="mobile-dropdown">
                             <button
                                 className="mobile-link mobile-drop-trigger"
@@ -113,6 +116,7 @@ export default function Header() {
                                 <Link href="/occasions/corporate" className="mobile-sub-link" onClick={closeMenu}>Corporate</Link>
                             </div>
                         </div>
+                        */}
                         <Link className="mobile-link" href="/#about" onClick={closeMenu}>About</Link>
                         <Link className="mobile-link" href="/#contact" onClick={closeMenu}>Contact</Link>
                         <div className="mt-4 grid grid-cols-2 gap-3">

@@ -24,7 +24,7 @@ export default function Footer() {
                     <div className="grid gap-2 text-sm text-textMuted">
                         <Link href="/experiences" className="footer-link inline-flex items-center gap-2"><Sparkles className="w-3.5 h-3.5" /><span>Experiences</span></Link>
                         <Link href="/fleet" className="footer-link inline-flex items-center gap-2"><Ship className="w-3.5 h-3.5" /><span>Fleet</span></Link>
-                        <Link href="/occasions/weddings" className="footer-link inline-flex items-center gap-2"><CalendarDays className="w-3.5 h-3.5" /><span>Occasions</span></Link>
+                        {/* <Link href="/occasions/weddings" className="footer-link inline-flex items-center gap-2"><CalendarDays className="w-3.5 h-3.5" /><span>Occasions</span></Link> */}
                         <a href="#" className="footer-link inline-flex items-center gap-2"><Instagram className="w-3.5 h-3.5" /><span>Instagram</span></a>
                         <a href="#" className="footer-link inline-flex items-center gap-2"><MessageCircle className="w-3.5 h-3.5" /><span>WhatsApp</span></a>
                     </div>
