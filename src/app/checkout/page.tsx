@@ -6,6 +6,26 @@ import Link from 'next/link';
 import Image from 'next/image';
 import fleetData from '@/data/fleet.json';
 
+const TIME_SLOT_LABELS: Record<string, string> = {
+    '6AM-8AM': '6 AM – 8 AM',
+    '8AM-10AM': '8 AM – 10 AM',
+    '10AM-12PM': '10 AM – 12 PM',
+    '12PM-2PM': '12 PM – 2 PM',
+    '2PM-4PM': '2 PM – 4 PM',
+    '4PM-6PM': '4 PM – 6 PM',
+    '6PM-8PM': '6 PM – 8 PM',
+    '8PM-10PM': '8 PM – 10 PM',
+    '10PM-12AM': '10 PM – 12 AM',
+    '12AM-2AM': '12 AM – 2 AM',
+};
+
+const ADDONS = [
+    { id: 'birthday-decor', label: 'Birthday / Celebration Decor', price: 5000 },
+    { id: 'photographer', label: 'Professional Photographer', price: 8000 },
+    { id: 'dj-music', label: 'DJ / Music Setup', price: 7000 },
+    { id: 'dining-setup', label: 'Premium Dining Setup', price: 10000 },
+];
+
 export default function CheckoutPage() {
     const [step, setStep] = useState(1); // 1 = Cart, 2 = Checkout
     const [bookingData, setBookingData] = useState<any>(null);
@@ -33,13 +53,16 @@ export default function CheckoutPage() {
     useEffect(() => {
         const searchParams = new URLSearchParams(window.location.search);
 
+        const extraHoursRaw = parseInt(searchParams.get('extraHours') || '0', 10);
+        const addonsRaw = searchParams.get('addons');
+
         const data = {
             yachtId: searchParams.get('yachtId'),
             date: searchParams.get('date'),
-            time: searchParams.get('time'),
+            timeSlot: searchParams.get('timeSlot'),
             guests: searchParams.get('guests'),
-            duration: searchParams.get('duration'),
-            addon: searchParams.get('addon'),
+            extraHours: [0, 2, 3, 4].includes(extraHoursRaw) ? extraHoursRaw : 0,
+            addons: addonsRaw ? addonsRaw.split(',').filter(id => ADDONS.some(a => a.id === id)) : [],
         };
 
         if (data.yachtId) {
@@ -57,25 +80,28 @@ export default function CheckoutPage() {
         return d.toLocaleDateString('en-IN', { month: 'long', day: 'numeric', year: 'numeric' });
     };
 
-    // Format time nicely
-    const formatTime = (timeStr: string | null) => {
-        if (!timeStr) return '--';
-        const [h, m] = timeStr.split(':');
-        const hr = parseInt(h);
-        const ampm = hr >= 12 ? 'PM' : 'AM';
-        const hr12 = hr % 12 || 12;
-        return `${hr12}:${m} ${ampm}`;
+    // Format time slot label
+    const formatSlot = (slotValue: string | null) => {
+        if (!slotValue) return '--';
+        return TIME_SLOT_LABELS[slotValue] || slotValue;
     };
 
-    // Calculate price
+    // Calculate price — base slot is 2 hrs + extra hours (0, 2, 3, or 4)
     const getHours = () => {
-        if (!bookingData?.duration) return 2;
-        const match = bookingData.duration.match(/\d+/);
-        return match ? parseInt(match[0], 10) : 2;
+        return 2 + (bookingData?.extraHours || 0);
     };
 
-    const basePrice = (yacht?.pricePerHour || 0) * getHours();
-    const subtotal = basePrice * quantity;
+    const getAddonsCost = () => {
+        if (!bookingData?.addons || bookingData.addons.length === 0) return 0;
+        return bookingData.addons.reduce((sum: number, addonId: string) => {
+            const found = ADDONS.find(a => a.id === addonId);
+            return sum + (found?.price || 0);
+        }, 0);
+    };
+
+    const charterCost = (yacht?.pricePerHour || 0) * getHours();
+    const addonsCost = getAddonsCost();
+    const subtotal = (charterCost + addonsCost) * quantity;
 
     const handlePayment = (e: React.FormEvent) => {
         e.preventDefault();
@@ -84,9 +110,13 @@ export default function CheckoutPage() {
             yacht: yacht?.title,
             yachtId: yacht?.id,
             date: bookingData?.date,
-            time: bookingData?.time,
+            timeSlot: bookingData?.timeSlot,
             guests: bookingData?.guests,
-            duration: bookingData?.duration,
+            extraHours: bookingData?.extraHours,
+            addons: bookingData?.addons,
+            hours: getHours(),
+            charterCost,
+            addonsCost,
             quantity,
             subtotal,
             customer: { firstName, lastName, email, phone, company, address, addressLine2, country, state, city, pincode },
@@ -161,7 +191,7 @@ export default function CheckoutPage() {
                                             </p>
                                             <p className="flex items-center gap-2">
                                                 <Clock className="w-3.5 h-3.5 text-gold" />
-                                                Time: {formatTime(bookingData?.time)} / Duration: {bookingData?.duration || '2 Hours'}
+                                                Slot: {formatSlot(bookingData?.timeSlot)} ({getHours()} hrs{bookingData?.extraHours > 0 ? ` incl. +${bookingData.extraHours} hr extra` : ''})
                                             </p>
                                             <p className="flex items-center gap-2">
                                                 <Users className="w-3.5 h-3.5 text-gold" />
@@ -186,8 +216,11 @@ export default function CheckoutPage() {
                                     </div>
 
                                     <div className="text-right shrink-0">
-                                        <p className="text-xl font-black font-jakarta text-textMain">₹{basePrice.toLocaleString()}</p>
+                                        <p className="text-xl font-black font-jakarta text-textMain">₹{charterCost.toLocaleString()}</p>
                                         <p className="text-xs text-textMuted mt-1">{yacht.price}/hr × {getHours()} hrs</p>
+                                        {addonsCost > 0 && (
+                                            <p className="text-xs text-gold mt-1 font-semibold">+ ₹{addonsCost.toLocaleString()} add-ons</p>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -332,9 +365,26 @@ export default function CheckoutPage() {
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <p className="font-bold text-sm">{yacht.title}</p>
-                                        <p className="text-xs text-white/50 mt-0.5">{formatDate(bookingData?.date)} • {formatTime(bookingData?.time)}</p>
+                                        <p className="text-xs text-white/50 mt-0.5">{formatDate(bookingData?.date)} • {formatSlot(bookingData?.timeSlot)}</p>
                                     </div>
-                                    <p className="font-bold text-sm shrink-0">₹{basePrice.toLocaleString()}</p>
+                                    <p className="font-bold text-sm shrink-0">₹{charterCost.toLocaleString()}</p>
+                                </div>
+                            )}
+
+                            {/* Add-ons breakdown */}
+                            {bookingData?.addons && bookingData.addons.length > 0 && (
+                                <div className="mb-5 pb-4 border-b border-white/10 space-y-2">
+                                    <p className="text-xs text-white/40 uppercase tracking-wider">Add-ons</p>
+                                    {bookingData.addons.map((addonId: string) => {
+                                        const addon = ADDONS.find(a => a.id === addonId);
+                                        if (!addon) return null;
+                                        return (
+                                            <div key={addonId} className="flex justify-between text-sm">
+                                                <span className="text-white/70">{addon.label}</span>
+                                                <span>₹{addon.price.toLocaleString()}</span>
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             )}
 

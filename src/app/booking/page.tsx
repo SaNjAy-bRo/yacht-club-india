@@ -2,12 +2,39 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Anchor, Instagram, Play, Ship, Waves, Camera, Sunset, ShieldCheck, Utensils, Clock3, Gift } from 'lucide-react';
+import { Anchor, Instagram, Play, Ship, Waves, Camera, Sunset, ShieldCheck, Utensils, Clock3, Gift, PartyPopper, CameraIcon, Music, UtensilsCrossed } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useRouter } from 'next/navigation';
 
 import faqsData from '@/data/faqs.json';
 import fleetData from '@/data/fleet.json';
+
+const TIME_SLOTS = [
+    { value: '6AM-8AM', label: '6 AM – 8 AM' },
+    { value: '8AM-10AM', label: '8 AM – 10 AM' },
+    { value: '10AM-12PM', label: '10 AM – 12 PM' },
+    { value: '12PM-2PM', label: '12 PM – 2 PM' },
+    { value: '2PM-4PM', label: '2 PM – 4 PM' },
+    { value: '4PM-6PM', label: '4 PM – 6 PM' },
+    { value: '6PM-8PM', label: '6 PM – 8 PM' },
+    { value: '8PM-10PM', label: '8 PM – 10 PM' },
+    { value: '10PM-12AM', label: '10 PM – 12 AM' },
+    { value: '12AM-2AM', label: '12 AM – 2 AM' },
+];
+
+const ADDONS = [
+    { id: 'birthday-decor', label: 'Birthday / Celebration Decor', price: 5000, icon: 'party' },
+    { id: 'photographer', label: 'Professional Photographer', price: 8000, icon: 'camera' },
+    { id: 'dj-music', label: 'DJ / Music Setup', price: 7000, icon: 'music' },
+    { id: 'dining-setup', label: 'Premium Dining Setup', price: 10000, icon: 'dining' },
+];
+
+const ADDON_ICONS: Record<string, any> = {
+    party: PartyPopper,
+    camera: CameraIcon,
+    music: Music,
+    dining: UtensilsCrossed,
+};
 
 export default function BookingPage() {
     const router = useRouter();
@@ -17,9 +44,10 @@ export default function BookingPage() {
 
     // Form State
     const [date, setDate] = useState('');
-    const [time, setTime] = useState('');
+    const [timeSlot, setTimeSlot] = useState('');
     const [guests, setGuests] = useState('');
-    const [duration, setDuration] = useState('2 Hours');
+    const [extraHours, setExtraHours] = useState(0);
+    const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
 
     const galleryImages = [
         '/images/yacht.png',
@@ -63,17 +91,22 @@ export default function BookingPage() {
     const handleCheckout = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!date || !time) {
-            alert('Please select both a Departure Date and Time before proceeding.');
+        if (!date) {
+            alert('Please select a Departure Date before proceeding.');
+            return;
+        }
+        if (!timeSlot) {
+            alert('Please select a Time Slot before proceeding.');
             return;
         }
 
         const params = new URLSearchParams();
         if (selectedYacht) params.set('yachtId', selectedYacht.id);
-        if (date) params.set('date', date);
-        if (time) params.set('time', time);
+        params.set('date', date);
+        params.set('timeSlot', timeSlot);
         if (guests) params.set('guests', guests);
-        if (duration) params.set('duration', duration);
+        params.set('extraHours', String(extraHours));
+        if (selectedAddons.length > 0) params.set('addons', selectedAddons.join(','));
 
         router.push(`/checkout?${params.toString()}`);
     };
@@ -115,7 +148,7 @@ export default function BookingPage() {
                             <span className="badge">Crew included</span>
                         </div>
                         <p className="booking-price mt-5">Starting from {selectedYacht ? selectedYacht.price : '₹____'} <span>/ hour</span></p>
-                        <p className="booking-copy mt-4">Select your date and departure time to reserve this yacht. Final itinerary and add-ons can be customized with concierge support.</p>
+                        <p className="booking-copy mt-4">Select your date and time slot to reserve this yacht. Final itinerary can be customized with concierge support.</p>
 
                         <form className="mt-7 space-y-4" onSubmit={handleCheckout}>
                             <div className="grid gap-4 sm:grid-cols-2">
@@ -124,26 +157,66 @@ export default function BookingPage() {
                                     <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
                                 </label>
                                 <label className="booking-field">
-                                    <span>Departure Time</span>
-                                    <input type="time" value={time} onChange={(e) => setTime(e.target.value)} required />
-                                </label>
-                            </div>
-                            <div className="grid gap-4 sm:grid-cols-2">
-                                <label className="booking-field">
                                     <span>Guests</span>
                                     <input type="number" min="1" placeholder="No. of guests" value={guests} onChange={(e) => setGuests(e.target.value)} required />
                                 </label>
-                                <label className="booking-field">
-                                    <span>Duration</span>
-                                    <select value={duration} onChange={(e) => setDuration(e.target.value)}>
-                                        <option value="2 Hours">2 Hours</option>
-                                        <option value="3 Hours">3 Hours</option>
-                                        <option value="4 Hours">4 Hours</option>
-                                        <option value="Sunset Slot">Sunset Slot</option>
-                                        <option value="Custom">Custom</option>
-                                    </select>
-                                </label>
                             </div>
+                            <label className="booking-field">
+                                <span>Time Slot (2 hrs)</span>
+                                <select value={timeSlot} onChange={(e) => setTimeSlot(e.target.value)} required>
+                                    <option value="" disabled>Select a time slot</option>
+                                    {TIME_SLOTS.map((slot) => (
+                                        <option key={slot.value} value={slot.value}>{slot.label}</option>
+                                    ))}
+                                </select>
+                            </label>
+                            <label className="booking-field">
+                                <span>Extra Hours</span>
+                                <select value={extraHours} onChange={(e) => setExtraHours(Number(e.target.value))}>
+                                    <option value={0}>No extra time</option>
+                                    <option value={2}>+2 Hours{selectedYacht?.pricePerHour ? ` (+₹${(selectedYacht.pricePerHour * 2).toLocaleString()})` : ''}</option>
+                                    <option value={3}>+3 Hours{selectedYacht?.pricePerHour ? ` (+₹${(selectedYacht.pricePerHour * 3).toLocaleString()})` : ''}</option>
+                                    <option value={4}>+4 Hours{selectedYacht?.pricePerHour ? ` (+₹${(selectedYacht.pricePerHour * 4).toLocaleString()})` : ''}</option>
+                                </select>
+                            </label>
+
+                            {/* Add-ons */}
+                            <div>
+                                <p className="text-sm font-semibold text-textMain mb-3">Add-ons (optional)</p>
+                                <div className="space-y-2">
+                                    {ADDONS.map((addon) => {
+                                        const isSelected = selectedAddons.includes(addon.id);
+                                        const IconComp = ADDON_ICONS[addon.icon];
+                                        return (
+                                            <label
+                                                key={addon.id}
+                                                className="flex items-center gap-3 cursor-pointer select-none rounded-xl border px-4 py-3 transition-all hover:border-gold/40"
+                                                style={{
+                                                    borderColor: isSelected ? 'rgba(200,164,93,0.5)' : 'rgba(0,0,0,0.1)',
+                                                    background: isSelected ? 'rgba(200,164,93,0.07)' : 'transparent',
+                                                }}
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isSelected}
+                                                    onChange={() => {
+                                                        setSelectedAddons(prev =>
+                                                            prev.includes(addon.id)
+                                                                ? prev.filter(id => id !== addon.id)
+                                                                : [...prev, addon.id]
+                                                        );
+                                                    }}
+                                                    className="accent-gold w-4 h-4"
+                                                />
+                                                {IconComp && <IconComp className="w-4 h-4 text-gold" />}
+                                                <span className="text-sm font-semibold text-textMain flex-1">{addon.label}</span>
+                                                <span className="text-xs font-bold text-gold">₹{addon.price.toLocaleString()}</span>
+                                            </label>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
                             <button type="submit" className="btn-gold btn-icon booking-submit w-full mt-2 flex justify-center" style={{ width: '100%' }}>
                                 <Anchor className="w-5 h-5" />
                                 <span>Proceed to Checkout</span>
