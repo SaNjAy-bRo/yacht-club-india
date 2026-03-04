@@ -38,8 +38,9 @@ export default function Header() {
     const headerClasses = `fixed top-0 z-50 w-full transition-all duration-300 ${isScrolled ? 'header-scrolled' : ''} ${!isHomePage && !isScrolled ? 'force-dark-text' : ''}`;
 
     // Determine which logo to show
-    const isLightLogo = isHomePage && !isScrolled;
-    const logoSrc = isLightLogo ? '/images/logo-dark-highres.png' : '/images/logo-light-highres.png';
+    // Homepage hero has dark bg → needs light logo; everywhere else (scrolled / inner pages) has white bg → needs dark logo
+    const hasDarkBg = isHomePage && !isScrolled;
+    const logoSrc = hasDarkBg ? '/images/logo-light-highres.png' : '/images/logo-dark-highres.png';
 
     return (
         <header id="site-header" className={headerClasses}>
