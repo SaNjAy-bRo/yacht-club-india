@@ -243,9 +243,26 @@ export default function BookingPage() {
                 </div>
             </section>
 
+            {/* Dynamic Yacht Image Gallery */}
+            <section className="section-surface py-24 border-t border-black/5">
+                <div className="mx-auto max-w-7xl px-6" data-reveal="true">
+                    <div className="flex items-center justify-between gap-4 mb-10">
+                        <h2 className="section-title no-divider text-left mb-0">Gallery</h2>
+                    </div>
+                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                        {galleryImages.map((src, idx) => (
+                            <div key={idx} className="relative h-64 sm:h-80 block overflow-hidden rounded-2xl group cursor-pointer hover:shadow-xl transition-all" onClick={() => setMainImg(src)}>
+                                <Image src={src} alt={`Yacht image ${idx + 1}`} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                                <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             {/* Yacht Details Section */}
             {selectedYacht && (
-                <section className="bg-white py-24 border-t border-black/5">
+                <section className="bg-white py-24">
                     <div className="mx-auto max-w-7xl px-6" data-reveal="true">
                         <div className="max-w-3xl mb-12">
                             <h2 className="section-title text-left no-divider">Yacht Overview</h2>
@@ -310,22 +327,7 @@ export default function BookingPage() {
                 </section>
             )}
 
-            {/* Dynamic Yacht Image Gallery */}
-            <section className="section-surface py-24">
-                <div className="mx-auto max-w-7xl px-6" data-reveal="true">
-                    <div className="flex items-center justify-between gap-4 mb-10">
-                        <h2 className="section-title no-divider text-left mb-0">Gallery</h2>
-                    </div>
-                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                        {galleryImages.map((src, idx) => (
-                            <div key={idx} className="relative h-64 sm:h-80 block overflow-hidden rounded-2xl group cursor-pointer hover:shadow-xl transition-all" onClick={() => setMainImg(src)}>
-                                <Image src={src} alt={`Yacht image ${idx + 1}`} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
-                                <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
+
 
 
 
