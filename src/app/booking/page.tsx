@@ -165,42 +165,6 @@ export default function BookingPage() {
                         </div>
                         <p className="booking-price mt-5">Starting from {selectedYacht ? selectedYacht.price : '₹____'} <span>/ hour</span></p>
 
-                        {selectedYacht && (
-                            <div className="mt-6 space-y-4 text-sm text-[#4E5B6D]">
-                                {selectedYacht.route && (
-                                    <p><strong>Route:</strong> {selectedYacht.route}</p>
-                                )}
-                                {selectedYacht.features && (
-                                    <div>
-                                        <strong>Key Features:</strong>
-                                        <ul className="list-disc pl-5 mt-1 space-y-1">
-                                            {selectedYacht.features.map((feature: string, idx: number) => (
-                                                <li key={idx}>{feature}</li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                )}
-                                {selectedYacht.inclusions && (
-                                    <div>
-                                        <strong>Complimentary:</strong> {selectedYacht.inclusions.join(', ')}
-                                    </div>
-                                )}
-                                {selectedYacht.foodOptions && (
-                                    <p><strong>Food & Drinks:</strong> {selectedYacht.foodOptions}</p>
-                                )}
-                                {selectedYacht.bestSuitedFor && (
-                                    <div>
-                                        <strong>Best Suited For:</strong> {selectedYacht.bestSuitedFor.join(', ')}
-                                    </div>
-                                )}
-                                {selectedYacht.highlight && (
-                                    <div className="mt-3 p-3 bg-gold/10 rounded-lg text-gold font-medium">
-                                        ✨ {selectedYacht.highlight}
-                                    </div>
-                                )}
-                            </div>
-                        )}
-
                         <p className="booking-copy mt-6 border-t border-black/10 pt-4">Select your date and time slot to reserve this yacht. Final itinerary can be customized with concierge support.</p>
 
                         <form className="mt-7 space-y-4" onSubmit={handleCheckout}>
@@ -279,51 +243,86 @@ export default function BookingPage() {
                 </div>
             </section>
 
-            {/* Instagram Reels Section */}
+            {/* Yacht Details Section */}
+            {selectedYacht && (
+                <section className="bg-white py-24 border-t border-black/5">
+                    <div className="mx-auto max-w-7xl px-6" data-reveal="true">
+                        <div className="max-w-3xl mb-12">
+                            <h2 className="section-title text-left no-divider">Yacht Overview</h2>
+                            {selectedYacht.highlight && (
+                                <p className="mt-4 text-lg text-gold font-medium">✨ {selectedYacht.highlight}</p>
+                            )}
+                        </div>
+
+                        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+                            {/* Route & Core Info */}
+                            <div className="space-y-6">
+                                {selectedYacht.route && (
+                                    <div>
+                                        <h3 className="flex items-center gap-2 font-bold text-[#10233D] mb-2"><Ship className="w-5 h-5 text-gold" /> Route & Itinerary</h3>
+                                        <p className="text-sm text-[#4E5B6D] leading-relaxed">{selectedYacht.route}</p>
+                                    </div>
+                                )}
+                                {selectedYacht.bestSuitedFor && (
+                                    <div>
+                                        <h3 className="flex items-center gap-2 font-bold text-[#10233D] mb-2"><PartyPopper className="w-5 h-5 text-gold" /> Best Suited For</h3>
+                                        <div className="flex flex-wrap gap-2 mt-3">
+                                            {selectedYacht.bestSuitedFor.map((item: string, i: number) => (
+                                                <span key={i} className="px-3 py-1.5 bg-[#F4F7FB] text-xs font-semibold text-[#4E5B6D] rounded-lg">{item}</span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Features */}
+                            {selectedYacht.features && (
+                                <div>
+                                    <h3 className="flex items-center gap-2 font-bold text-[#10233D] mb-4"><ShieldCheck className="w-5 h-5 text-gold" /> Key Features</h3>
+                                    <ul className="space-y-3">
+                                        {selectedYacht.features.map((feature: string, idx: number) => (
+                                            <li key={idx} className="flex items-start gap-3 text-sm text-[#4E5B6D]">
+                                                <div className="mt-1 w-1.5 h-1.5 rounded-full bg-gold shrink-0" />
+                                                <span>{feature}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+
+                            {/* Inclusions & Food */}
+                            <div className="space-y-6">
+                                {selectedYacht.inclusions && (
+                                    <div>
+                                        <h3 className="flex items-center gap-2 font-bold text-[#10233D] mb-3"><Gift className="w-5 h-5 text-gold" /> Complimentary</h3>
+                                        <p className="text-sm text-[#4E5B6D] leading-relaxed">{selectedYacht.inclusions.join(' • ')}</p>
+                                    </div>
+                                )}
+                                {selectedYacht.foodOptions && (
+                                    <div>
+                                        <h3 className="flex items-center gap-2 font-bold text-[#10233D] mb-2"><Utensils className="w-5 h-5 text-gold" /> Food & Drinks</h3>
+                                        <p className="text-sm text-[#4E5B6D] leading-relaxed">{selectedYacht.foodOptions}</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* Dynamic Yacht Image Gallery */}
             <section className="section-surface py-24">
                 <div className="mx-auto max-w-7xl px-6" data-reveal="true">
-                    <div className="flex items-center justify-between gap-4">
-                        <h2 className="section-title no-divider text-left">Instagram Reels</h2>
-                        <Button href="#" variant="outline" icon={Instagram}>Follow @yachtclubindia_</Button>
+                    <div className="flex items-center justify-between gap-4 mb-10">
+                        <h2 className="section-title no-divider text-left mb-0">Gallery</h2>
                     </div>
-                    <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                        {[1, 2, 3, 4].map((num) => (
-                            <a key={num} href="#" className="reel-card relative h-80 block overflow-hidden rounded-2xl group">
-                                <Image src={`/images/s${num}.jpg`} alt={`Instagram reel ${num}`} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
-                                <span className="reel-play absolute inset-0 m-auto w-12 h-12 flex items-center justify-center bg-black/40 text-white rounded-full backdrop-blur-sm group-hover:bg-gold/90 transition-all">
-                                    <Play className="w-5 h-5 ml-1" />
-                                </span>
-                            </a>
+                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                        {galleryImages.map((src, idx) => (
+                            <div key={idx} className="relative h-64 sm:h-80 block overflow-hidden rounded-2xl group cursor-pointer hover:shadow-xl transition-all" onClick={() => setMainImg(src)}>
+                                <Image src={src} alt={`Yacht image ${idx + 1}`} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                                <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
+                            </div>
                         ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Itinerary Section */}
-            <section className="bg-[#F4F7FB] py-24">
-                <div className="mx-auto max-w-7xl px-6" data-reveal="true">
-                    <h2 className="section-title">Sample Itinerary</h2>
-                    <div className="itinerary-grid mt-10">
-                        <article className="itinerary-card">
-                            <span className="itinerary-time">00:00</span>
-                            <h3 className="itinerary-head"><Ship /><span>Boarding & Welcome</span></h3>
-                            <p>Meet crew at Brittona Jetty, safety briefing, welcome refreshments, and route briefing.</p>
-                        </article>
-                        <article className="itinerary-card">
-                            <span className="itinerary-time">00:30</span>
-                            <h3 className="itinerary-head"><Waves /><span>Scenic Cruise</span></h3>
-                            <p>Leisure sail past signature Goa waterfront views with curated music and concierge service.</p>
-                        </article>
-                        <article className="itinerary-card">
-                            <span className="itinerary-time">01:30</span>
-                            <h3 className="itinerary-head"><Camera /><span>Anchor Stop</span></h3>
-                            <p>Photo moments, celebration setup, and optional add-ons including decor and dining service.</p>
-                        </article>
-                        <article className="itinerary-card">
-                            <span className="itinerary-time">02:30</span>
-                            <h3 className="itinerary-head"><Sunset /><span>Sunset Return</span></h3>
-                            <p>Return cruise with golden-hour views and smooth disembarkation support at the jetty.</p>
-                        </article>
                     </div>
                 </div>
             </section>
