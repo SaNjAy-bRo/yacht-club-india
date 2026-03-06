@@ -164,7 +164,44 @@ export default function BookingPage() {
                             <span className="badge">Crew included</span>
                         </div>
                         <p className="booking-price mt-5">Starting from {selectedYacht ? selectedYacht.price : '₹____'} <span>/ hour</span></p>
-                        <p className="booking-copy mt-4">Select your date and time slot to reserve this yacht. Final itinerary can be customized with concierge support.</p>
+
+                        {selectedYacht && (
+                            <div className="mt-6 space-y-4 text-sm text-[#4E5B6D]">
+                                {selectedYacht.route && (
+                                    <p><strong>Route:</strong> {selectedYacht.route}</p>
+                                )}
+                                {selectedYacht.features && (
+                                    <div>
+                                        <strong>Key Features:</strong>
+                                        <ul className="list-disc pl-5 mt-1 space-y-1">
+                                            {selectedYacht.features.map((feature: string, idx: number) => (
+                                                <li key={idx}>{feature}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+                                {selectedYacht.inclusions && (
+                                    <div>
+                                        <strong>Complimentary:</strong> {selectedYacht.inclusions.join(', ')}
+                                    </div>
+                                )}
+                                {selectedYacht.foodOptions && (
+                                    <p><strong>Food & Drinks:</strong> {selectedYacht.foodOptions}</p>
+                                )}
+                                {selectedYacht.bestSuitedFor && (
+                                    <div>
+                                        <strong>Best Suited For:</strong> {selectedYacht.bestSuitedFor.join(', ')}
+                                    </div>
+                                )}
+                                {selectedYacht.highlight && (
+                                    <div className="mt-3 p-3 bg-gold/10 rounded-lg text-gold font-medium">
+                                        ✨ {selectedYacht.highlight}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        <p className="booking-copy mt-6 border-t border-black/10 pt-4">Select your date and time slot to reserve this yacht. Final itinerary can be customized with concierge support.</p>
 
                         <form className="mt-7 space-y-4" onSubmit={handleCheckout}>
                             <div className="grid gap-4 sm:grid-cols-2">
