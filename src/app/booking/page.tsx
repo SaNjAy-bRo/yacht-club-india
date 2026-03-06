@@ -80,13 +80,11 @@ export default function BookingPage() {
         const searchParams = new URLSearchParams(window.location.search);
         const yachtId = searchParams.get('yachtId');
         if (yachtId) {
-            const foundYacht = fleetData.find(y => y.id === yachtId);
+            const foundYacht = (fleetData as any[]).find((y: any) => y.id === yachtId);
             if (foundYacht) {
                 setSelectedYacht(foundYacht);
                 setMainImg(foundYacht.image);
-                // @ts-ignore
                 if (foundYacht.images && foundYacht.images.length > 0) {
-                    // @ts-ignore
                     setGalleryImages(foundYacht.images);
                 }
             }
@@ -94,6 +92,25 @@ export default function BookingPage() {
 
         return () => io.disconnect();
     }, []);
+
+    // Re-observe reveal elements when selectedYacht changes (for dynamically rendered sections)
+    useEffect(() => {
+        if (!selectedYacht) return;
+        const timer = setTimeout(() => {
+            const revealEls = document.querySelectorAll('[data-reveal]:not(.revealed)');
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                        io.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            revealEls.forEach((el) => io.observe(el));
+            return () => io.disconnect();
+        }, 100);
+        return () => clearTimeout(timer);
+    }, [selectedYacht]);
 
     const toggleFaq = (id: string) => {
         setOpenFaq(openFaq === id ? null : id);
@@ -331,31 +348,31 @@ export default function BookingPage() {
 
 
 
-            {/* Features & Offers */}
+            {/* What's Included */}
             <section className="bg-[#F4F7FB] py-24">
                 <div className="mx-auto max-w-7xl px-6" data-reveal="true">
-                    <h2 className="section-title">Features & Offers</h2>
-                    <p className="section-subtitle">What’s included in your booking and premium perks available for your charter.</p>
+                    <h2 className="section-title">What's Included</h2>
+                    <p className="section-subtitle">Everything you get with your yacht charter experience.</p>
                     <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
                         <article className="feature-card">
                             <ShieldCheck className="w-8 h-8 text-gold mb-3" />
                             <h3>Safety Assured</h3>
-                            <p>Certified crew, safety gear, and compliant onboard protocols.</p>
+                            <p>Certified crew, life jackets, safety gear, and compliant onboard protocols for a worry-free experience.</p>
                         </article>
                         <article className="feature-card">
-                            <Utensils className="w-8 h-8 text-gold mb-3" />
-                            <h3>Premium Add-ons</h3>
-                            <p>Optional dining setups, decor, music, and curated services.</p>
+                            <Gift className="w-8 h-8 text-gold mb-3" />
+                            <h3>Complimentary Amenities</h3>
+                            <p>{selectedYacht?.inclusions ? selectedYacht.inclusions.join(', ') : 'Ice, drinking water, soft drinks, music system, and cutlery included.'}</p>
                         </article>
                         <article className="feature-card">
                             <Clock3 className="w-8 h-8 text-gold mb-3" />
-                            <h3>Flexible Slots</h3>
-                            <p>Day, sunset, and evening sail windows to match your plans.</p>
+                            <h3>Flexible Duration</h3>
+                            <p>{selectedYacht ? `${selectedYacht.duration} hours base cruise with optional extra hours available.` : 'Customizable cruise duration with extra hours available on request.'}</p>
                         </article>
-                        <article className="feature-card offer">
-                            <Gift className="w-8 h-8 text-gold mb-3" />
-                            <h3>Seasonal Offer</h3>
-                            <p>Early booking benefit available on selected weekday charters.</p>
+                        <article className="feature-card">
+                            <Utensils className="w-8 h-8 text-gold mb-3" />
+                            <h3>Food & Drinks</h3>
+                            <p>{selectedYacht?.foodOptions || 'Bring your own food and beverages. Premium dining setup available as add-on.'}</p>
                         </article>
                     </div>
                 </div>
