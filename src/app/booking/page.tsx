@@ -51,11 +51,20 @@ export default function BookingPage() {
     const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
 
     const [galleryImages, setGalleryImages] = useState<string[]>([
-        '/images/yacht.png',
-        '/images/c1.jpg',
-        '/images/c2.jpg',
-        '/images/c3.jpg'
+        '/images/yacht/phoenix-1.jpg',
+        '/images/yacht/phoenix-2.jpg',
+        '/images/yacht/phoenix-3.jpg',
+        '/images/yacht/phoenix-4.jpg',
+        '/images/yacht/DJI_20260214204839_0010_D.JPG',
+        '/images/yacht/DJI_20260214205036_0046_D.JPG',
+        '/images/yacht/DJI_20260214205042_0051_D.JPG',
+        '/images/yacht/DJI_20260214205313_0099_D.JPG',
+        '/images/yacht/DJI_20260214205423_0109_D.JPG',
+        '/images/yacht/DJI_20260214210735_0003_D.JPG',
+        '/images/yacht/DJI_20260214210739_0006_D.JPG',
+        '/images/yacht/DJI_20260214210743_0009_D.JPG'
     ]);
+    const [showAllGallery, setShowAllGallery] = useState(false);
 
     useEffect(() => {
         // Set min date to today local time
@@ -164,16 +173,17 @@ export default function BookingPage() {
                                 fill
                                 className="object-cover rounded-2xl"
                                 priority
+                                unoptimized={mainImg.toLowerCase().endsWith('.dng')}
                             />
                         </div>
                         <div className="mt-4 grid grid-cols-4 gap-3">
-                            {galleryImages.map((src, idx) => (
+                            {galleryImages.slice(0, 4).map((src, idx) => (
                                 <button
                                     key={idx}
                                     className={`booking-thumb relative h-24 ${mainImg === src ? 'is-active base-active-border' : ''}`}
                                     onClick={() => setMainImg(src)}
                                 >
-                                    <Image src={src} alt={`Yacht view ${idx + 1}`} fill className="object-cover rounded-xl" />
+                                    <Image src={src} alt={`Yacht view ${idx + 1}`} fill className="object-cover rounded-xl" unoptimized={src.toLowerCase().endsWith('.dng')} />
                                 </button>
                             ))}
                         </div>
@@ -273,13 +283,24 @@ export default function BookingPage() {
                         <h2 className="section-title no-divider text-left mb-0">Gallery</h2>
                     </div>
                     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                        {galleryImages.map((src, idx) => (
+                        {(showAllGallery ? galleryImages : galleryImages.slice(0, 8)).map((src, idx) => (
                             <div key={idx} className="relative h-64 sm:h-80 block overflow-hidden rounded-2xl group cursor-pointer hover:shadow-xl transition-all" onClick={() => setMainImg(src)}>
-                                <Image src={src} alt={`Yacht image ${idx + 1}`} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                                <Image src={src} alt={`Yacht image ${idx + 1}`} fill className="object-cover transition-transform duration-700 group-hover:scale-105" unoptimized={src.toLowerCase().endsWith('.dng')} />
                                 <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
                             </div>
                         ))}
                     </div>
+
+                    {galleryImages.length > 8 && (
+                        <div className="mt-12 flex justify-center">
+                            <button
+                                onClick={() => setShowAllGallery(!showAllGallery)}
+                                className="btn-gold rounded-full px-8"
+                            >
+                                {showAllGallery ? 'See Less' : 'See More Gallery'}
+                            </button>
+                        </div>
+                    )}
                 </div>
             </section>
 

@@ -1544,13 +1544,13 @@ main>section:first-of-type .btn-outline:hover {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: #2b415b;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .booking-field input,
 .booking-field select {
   height: 42px;
-  border: 1px solid rgba(16, 35, 61, 0.2);
+  border: 2px solid rgba(16, 35, 61, 0.2);
   border-radius: 8px;
   padding: 0 0.75rem;
   background: #fff;
@@ -1561,6 +1561,13 @@ main>section:first-of-type .btn-outline:hover {
 .booking-field input::placeholder {
   color: #6a7f96;
   opacity: 0.8;
+  font-weight: 700;
+}
+
+.booking-field select:invalid,
+.booking-field select option[value=""][disabled] {
+  color: #6a7f96;
+  font-weight: 700;
 }
 
 .booking-field input:focus,
