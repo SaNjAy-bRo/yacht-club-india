@@ -153,8 +153,8 @@ export default function BookingPage() {
                         {/* Title Area */}
                         <div className="mb-6 lg:mb-8 block">
                             <p className="booking-label">Yacht Booking</p>
-                            {/* Desktop-only Yacht Title */}
-                            <h1 className="booking-title hidden lg:block text-4xl mt-1.5">{selectedYacht ? selectedYacht.title : 'Yacht Name Placeholder'}</h1>
+                            {/* Yacht Title */}
+                            <h1 className="booking-title text-3xl lg:text-4xl mt-1.5">{selectedYacht ? selectedYacht.title : 'Yacht Name Placeholder'}</h1>
                         </div>
 
                         <div className="booking-main-image relative h-[450px]">
@@ -180,9 +180,7 @@ export default function BookingPage() {
                     </div>
 
                     <aside id="booking-form" className="booking-panel" data-reveal="true">
-                        {/* Mobile-only Yacht Title */}
-                        <h1 className="booking-title lg:hidden">{selectedYacht ? selectedYacht.title : 'Yacht Name Placeholder'}</h1>
-                        <div className="mt-3 flex flex-wrap gap-2 text-xs">
+                        <div className="mt-1 flex flex-wrap gap-2 text-xs">
                             <span className="badge">Up to {selectedYacht ? selectedYacht.capacity.replace('Up to ', '').replace(' guests', '') : '___'} guests</span>
                             <span className="badge">{selectedYacht ? selectedYacht.duration.replace(' hrs', '') : '___'} hrs</span>
                             <span className="badge">Crew included</span>
