@@ -13,12 +13,37 @@
         }
     },
     {
-        "id": "f2",
-        "title": "Yacht Name Placeholder",
+        "id": "phoenix",
+        "title": "Phoenix Yacht",
         "image": "/images/yacht.png",
-        "capacity": "___",
-        "duration": "___",
-        "price": "₹____",
+        "capacity": "Up to 12",
+        "duration": "2",
+        "price": "₹18,000",
+        "pricePerHour": 9000,
+        "series": "YC78",
+        "route": "Mandovi River – Miramar Beach and surrounding scenic coastline.",
+        "features": [
+            "Fully air-conditioned bedrooms",
+            "Spacious indoor lounge area",
+            "Unique glass dance floor",
+            "Clean and well-maintained washroom",
+            "Large open deck with ample space"
+        ],
+        "inclusions": [
+            "Ice",
+            "Drinking water",
+            "Soft drinks",
+            "Music system",
+            "Cutlery"
+        ],
+        "foodOptions": "Guests are allowed to bring their own food and beverages.",
+        "bestSuitedFor": [
+            "Pre-wedding photoshoots",
+            "Birthday celebrations",
+            "Private parties",
+            "Couple experiences"
+        ],
+        "highlight": "The yacht features a long open deck, making it one of the most recommended yachts by photographers for pre-wedding shoots and professional photography.",
         "tag": {
             "type": "featured",
             "label": "Featured"

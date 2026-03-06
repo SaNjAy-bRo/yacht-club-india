@@ -44,6 +44,7 @@ export default function BookingPage() {
 
     // Form State
     const [date, setDate] = useState('');
+    const [minDate, setMinDate] = useState('');
     const [timeSlot, setTimeSlot] = useState('');
     const [guests, setGuests] = useState('');
     const [extraHours, setExtraHours] = useState(0);
@@ -57,6 +58,11 @@ export default function BookingPage() {
     ];
 
     useEffect(() => {
+        // Set min date to today local time
+        const today = new Date();
+        const localDateStr = new Date(today.getTime() - (today.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+        setMinDate(localDateStr);
+
         // Basic Intersection Observer for reveal animation
         const revealEls = document.querySelectorAll('[data-reveal]');
         const io = new IntersectionObserver((entries) => {
@@ -97,6 +103,11 @@ export default function BookingPage() {
         }
         if (!timeSlot) {
             alert('Please select a Time Slot before proceeding.');
+            return;
+        }
+
+        if (guests && parseInt(guests, 10) > 12) {
+            alert('A maximum of 12 guests is allowed per yacht.');
             return;
         }
 
@@ -154,11 +165,11 @@ export default function BookingPage() {
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <label className="booking-field">
                                     <span>Departure Date</span>
-                                    <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+                                    <input type="date" min={minDate} value={date} onChange={(e) => setDate(e.target.value)} required />
                                 </label>
                                 <label className="booking-field">
-                                    <span>Guests</span>
-                                    <input type="number" min="1" placeholder="No. of guests" value={guests} onChange={(e) => setGuests(e.target.value)} required />
+                                    <span>Guests (Max 12)</span>
+                                    <input type="number" min="1" max="12" placeholder="No. of guests" value={guests} onChange={(e) => setGuests(e.target.value)} required />
                                 </label>
                             </div>
                             <label className="booking-field">
