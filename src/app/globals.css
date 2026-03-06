@@ -1497,6 +1497,15 @@ main>section:first-of-type .btn-outline:hover {
   font-weight: 600;
 }
 
+@media (min-width: 1024px) {
+  .booking-label {
+    font-size: 0.8rem;
+    color: #6a7f96;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+  }
+}
+
 .booking-title {
   margin-top: 0.35rem;
   font-family: 'Plus Jakarta Sans', sans-serif;

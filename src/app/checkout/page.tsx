@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { ShieldCheck, ArrowLeft, ArrowRight, Minus, Plus, Ship, Clock, Users, CalendarDays, MapPin, CreditCard, Smartphone } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation'; // Added this import
 import fleetData from '@/data/fleet.json';
 
 const TIME_SLOT_LABELS: Record<string, string> = {
@@ -27,6 +28,7 @@ const ADDONS = [
 ];
 
 export default function CheckoutPage() {
+    const router = useRouter(); // Added router
     const [step, setStep] = useState(1); // 1 = Cart, 2 = Checkout
     const [bookingData, setBookingData] = useState<any>(null);
     const [yacht, setYacht] = useState<any>(null);
@@ -135,10 +137,10 @@ export default function CheckoutPage() {
                 {/* Back link */}
                 <div className="mb-6">
                     {step === 1 ? (
-                        <Link href="/booking" className="inline-flex items-center text-sm font-semibold text-textMuted hover:text-gold transition-colors">
+                        <button onClick={() => router.back()} className="inline-flex items-center text-sm font-semibold text-textMuted hover:text-gold transition-colors">
                             <ArrowLeft className="w-4 h-4 mr-2" />
                             Back to Booking
-                        </Link>
+                        </button>
                     ) : (
                         <button onClick={() => setStep(1)} className="inline-flex items-center text-sm font-semibold text-textMuted hover:text-gold transition-colors">
                             <ArrowLeft className="w-4 h-4 mr-2" />

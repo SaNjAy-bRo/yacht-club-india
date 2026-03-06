@@ -145,14 +145,16 @@ export default function BookingPage() {
     };
 
     return (
-        <main className="pt-36 lg:pt-32">
+        <main className="pt-28 lg:pt-32">
             {/* Product / Booking Section */}
-            <section className="booking-product py-16">
+            <section className="booking-product py-10 lg:py-16">
                 <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[1.15fr_0.85fr] items-start">
                     <div data-reveal="true" className="lg:sticky lg:top-32">
-                        {/* Title (visible on both mobile and desktop above images) */}
+                        {/* Title Area */}
                         <div className="mb-6 lg:mb-8 block">
                             <p className="booking-label">Yacht Booking</p>
+                            {/* Desktop-only Yacht Title */}
+                            <h1 className="booking-title hidden lg:block text-4xl mt-1.5">{selectedYacht ? selectedYacht.title : 'Yacht Name Placeholder'}</h1>
                         </div>
 
                         <div className="booking-main-image relative h-[450px]">
@@ -178,7 +180,8 @@ export default function BookingPage() {
                     </div>
 
                     <aside id="booking-form" className="booking-panel" data-reveal="true">
-                        <h1 className="booking-title">{selectedYacht ? selectedYacht.title : 'Yacht Name Placeholder'}</h1>
+                        {/* Mobile-only Yacht Title */}
+                        <h1 className="booking-title lg:hidden">{selectedYacht ? selectedYacht.title : 'Yacht Name Placeholder'}</h1>
                         <div className="mt-3 flex flex-wrap gap-2 text-xs">
                             <span className="badge">Up to {selectedYacht ? selectedYacht.capacity.replace('Up to ', '').replace(' guests', '') : '___'} guests</span>
                             <span className="badge">{selectedYacht ? selectedYacht.duration.replace(' hrs', '') : '___'} hrs</span>
