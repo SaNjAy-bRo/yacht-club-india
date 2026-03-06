@@ -15,7 +15,13 @@
     {
         "id": "phoenix",
         "title": "Phoenix Yacht",
-        "image": "/images/yacht.png",
+        "image": "/images/yacht/phoenix-1.jpg",
+        "images": [
+            "/images/yacht/phoenix-1.jpg",
+            "/images/yacht/phoenix-2.jpg",
+            "/images/yacht/phoenix-3.jpg",
+            "/images/yacht/phoenix-4.jpg"
+        ],
         "capacity": "Up to 12",
         "duration": "2",
         "price": "₹18,000",

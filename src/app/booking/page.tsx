@@ -50,12 +50,12 @@ export default function BookingPage() {
     const [extraHours, setExtraHours] = useState(0);
     const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
 
-    const galleryImages = [
+    const [galleryImages, setGalleryImages] = useState<string[]>([
         '/images/yacht.png',
         '/images/c1.jpg',
         '/images/c2.jpg',
         '/images/c3.jpg'
-    ];
+    ]);
 
     useEffect(() => {
         // Set min date to today local time
@@ -84,6 +84,11 @@ export default function BookingPage() {
             if (foundYacht) {
                 setSelectedYacht(foundYacht);
                 setMainImg(foundYacht.image);
+                // @ts-ignore
+                if (foundYacht.images && foundYacht.images.length > 0) {
+                    // @ts-ignore
+                    setGalleryImages(foundYacht.images);
+                }
             }
         }
 
