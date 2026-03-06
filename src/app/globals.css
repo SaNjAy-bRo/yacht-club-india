@@ -1493,7 +1493,8 @@ main>section:first-of-type .btn-outline:hover {
   font-size: 0.74rem;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: #8da0b5;
+  color: #445973;
+  font-weight: 600;
 }
 
 .booking-title {
@@ -1514,12 +1515,12 @@ main>section:first-of-type .btn-outline:hover {
 .booking-price span {
   font-family: 'Inter', sans-serif;
   font-size: 0.9rem;
-  color: #5F738A;
+  color: #3F4A56;
   font-weight: 500;
 }
 
 .booking-copy {
-  color: #5F738A;
+  color: #2b415b;
   line-height: 1.7;
 }
 
@@ -1533,7 +1534,8 @@ main>section:first-of-type .btn-outline:hover {
   font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #6a7f96;
+  color: #2b415b;
+  font-weight: 600;
 }
 
 .booking-field input,
@@ -1544,6 +1546,12 @@ main>section:first-of-type .btn-outline:hover {
   padding: 0 0.75rem;
   background: #fff;
   color: #10233D;
+  font-weight: 500;
+}
+
+.booking-field input::placeholder {
+  color: #6a7f96;
+  opacity: 0.8;
 }
 
 .booking-field input:focus,

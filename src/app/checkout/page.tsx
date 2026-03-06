@@ -175,52 +175,68 @@ export default function CheckoutPage() {
                         {/* Cart Item */}
                         {yacht ? (
                             <div className="px-8 py-6">
-                                <div className="flex gap-6">
-                                    {/* Yacht Image */}
-                                    <div className="relative w-32 h-24 rounded-xl overflow-hidden shrink-0 border border-black/5">
-                                        <Image src={yacht.image} alt={yacht.title} fill className="object-cover" />
-                                    </div>
-
-                                    {/* Yacht Info */}
-                                    <div className="flex-1 min-w-0">
-                                        <h3 className="text-lg font-bold font-jakarta text-textMain">{yacht.title}</h3>
-                                        <div className="mt-2 space-y-1 text-sm text-textMuted">
-                                            <p className="flex items-center gap-2">
-                                                <CalendarDays className="w-3.5 h-3.5 text-gold" />
-                                                Booking Date: {formatDate(bookingData?.date)}
-                                            </p>
-                                            <p className="flex items-center gap-2">
-                                                <Clock className="w-3.5 h-3.5 text-gold" />
-                                                Slot: {formatSlot(bookingData?.timeSlot)} ({getHours()} hrs{bookingData?.extraHours > 0 ? ` incl. +${bookingData.extraHours} hr extra` : ''})
-                                            </p>
-                                            <p className="flex items-center gap-2">
-                                                <Users className="w-3.5 h-3.5 text-gold" />
-                                                Guests: {bookingData?.guests || '--'}
-                                            </p>
-                                            <p className="flex items-center gap-2">
-                                                <MapPin className="w-3.5 h-3.5 text-gold" />
-                                                Zone: Asia/Kolkata
-                                            </p>
+                                <div className="flex flex-col md:flex-row gap-5 md:gap-6">
+                                    <div className="flex gap-4 sm:gap-6 flex-1">
+                                        {/* Yacht Image */}
+                                        <div className="relative w-24 h-24 sm:w-32 sm:h-24 rounded-xl overflow-hidden shrink-0 border border-black/5">
+                                            <Image src={yacht.image} alt={yacht.title} fill className="object-cover" />
                                         </div>
 
-                                        {/* Quantity Controls */}
-                                        <div className="mt-4 flex items-center gap-3">
+                                        {/* Yacht Info */}
+                                        <div className="flex-1 min-w-0">
+                                            <h3 className="text-lg font-bold font-jakarta text-textMain">{yacht.title}</h3>
+                                            <div className="mt-2 text-sm text-textMuted flex flex-col gap-1.5">
+                                                <div className="flex gap-2 items-start sm:items-center">
+                                                    <CalendarDays className="w-3.5 h-3.5 text-gold shrink-0 mt-0.5 sm:mt-0" />
+                                                    <span className="leading-snug truncate">Booking Date: {formatDate(bookingData?.date)}</span>
+                                                </div>
+                                                <div className="flex gap-2 items-start sm:items-center">
+                                                    <Clock className="w-3.5 h-3.5 text-gold shrink-0 mt-0.5 sm:mt-0" />
+                                                    <span className="leading-snug break-words">Slot: {formatSlot(bookingData?.timeSlot)} ({getHours()} hrs{bookingData?.extraHours > 0 ? ` incl. +${bookingData.extraHours} hr extra` : ''})</span>
+                                                </div>
+                                                <div className="flex gap-2 items-center">
+                                                    <Users className="w-3.5 h-3.5 text-gold shrink-0" />
+                                                    <span className="leading-snug">Guests: {bookingData?.guests || '--'}</span>
+                                                </div>
+                                                <div className="flex gap-2 items-center">
+                                                    <MapPin className="w-3.5 h-3.5 text-gold shrink-0" />
+                                                    <span className="leading-snug">Zone: Asia/Kolkata</span>
+                                                </div>
+                                            </div>
+
+                                            {/* Top/Desktop Quantity Controls */}
+                                            <div className="hidden md:flex mt-4 items-center gap-3">
+                                                <button type="button" onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-9 h-9 rounded-full border border-black/10 flex items-center justify-center hover:bg-black/5 transition-colors">
+                                                    <Minus className="w-3.5 h-3.5" />
+                                                </button>
+                                                <span className="w-10 text-center font-bold text-textMain">{quantity}</span>
+                                                <button type="button" onClick={() => setQuantity(quantity + 1)} className="w-9 h-9 rounded-full border border-black/10 flex items-center justify-center hover:bg-black/5 transition-colors">
+                                                    <Plus className="w-3.5 h-3.5" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Mobile bottom row / Desktop right column */}
+                                    <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-start border-t border-black/5 md:border-none pt-4 md:pt-0 shrink-0">
+                                        {/* Mobile Quantity Controls */}
+                                        <div className="md:hidden flex items-center gap-3">
                                             <button type="button" onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-9 h-9 rounded-full border border-black/10 flex items-center justify-center hover:bg-black/5 transition-colors">
                                                 <Minus className="w-3.5 h-3.5" />
                                             </button>
-                                            <span className="w-10 text-center font-bold text-textMain">{quantity}</span>
+                                            <span className="w-8 text-center font-bold text-textMain">{quantity}</span>
                                             <button type="button" onClick={() => setQuantity(quantity + 1)} className="w-9 h-9 rounded-full border border-black/10 flex items-center justify-center hover:bg-black/5 transition-colors">
                                                 <Plus className="w-3.5 h-3.5" />
                                             </button>
                                         </div>
-                                    </div>
 
-                                    <div className="text-right shrink-0">
-                                        <p className="text-xl font-black font-jakarta text-textMain">₹{charterCost.toLocaleString()}</p>
-                                        <p className="text-xs text-textMuted mt-1">{yacht.price}/hr × {getHours()} hrs</p>
-                                        {addonsCost > 0 && (
-                                            <p className="text-xs text-gold mt-1 font-semibold">+ ₹{addonsCost.toLocaleString()} add-ons</p>
-                                        )}
+                                        <div className="text-right">
+                                            <p className="text-xl font-black font-jakarta text-textMain">₹{charterCost.toLocaleString()}</p>
+                                            <p className="text-xs text-textMuted mt-1">{yacht.price}/hr × {getHours()} hrs</p>
+                                            {addonsCost > 0 && (
+                                                <p className="text-xs text-gold mt-1 font-semibold">+ ₹{addonsCost.toLocaleString()} add-ons</p>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
