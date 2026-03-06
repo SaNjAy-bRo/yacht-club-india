@@ -131,8 +131,8 @@ export default function BookingPage() {
         <main className="pt-32">
             {/* Product / Booking Section */}
             <section className="booking-product py-16">
-                <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[1.15fr_0.85fr]">
-                    <div data-reveal="true">
+                <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[1.15fr_0.85fr] items-start">
+                    <div data-reveal="true" className="lg:sticky lg:top-32">
                         <div className="booking-main-image relative h-[450px]">
                             <Image
                                 src={mainImg}
