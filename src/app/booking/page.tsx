@@ -23,8 +23,9 @@ const TIME_SLOTS = [
 ];
 
 const ADDONS = [
-    { id: 'birthday-decor', label: 'Birthday / Celebration Decor', price: 5000, icon: 'party' },
-    { id: 'photographer', label: 'Professional Photographer', price: 8000, icon: 'camera' },
+    { id: 'balloon-decor', label: 'Balloon decor', price: 1500, icon: 'party' },
+    { id: 'drone-shoot', label: 'Drone shoot videography and photography', price: 3500, icon: 'camera' },
+    { id: 'pre-wedding-shoot', label: 'Pre wedding or professional shoot', price: 10000, icon: 'camera' },
     { id: 'dj-music', label: 'DJ / Music Setup', price: 7000, icon: 'music' },
     { id: 'dining-setup', label: 'Premium Dining Setup', price: 10000, icon: 'dining' },
 ];
@@ -55,6 +56,7 @@ export default function BookingPage() {
         '/images/yacht/phoenix-2.jpg',
         '/images/yacht/phoenix-3.jpg',
         '/images/yacht/phoenix-4.jpg',
+        '/images/yacht/phoenix-5.jpg',
         '/images/yacht/DJI_20260214204839_0010_D.JPG',
         '/images/yacht/DJI_20260214205036_0046_D.JPG',
         '/images/yacht/DJI_20260214205042_0051_D.JPG',
@@ -171,7 +173,7 @@ export default function BookingPage() {
                                 src={mainImg}
                                 alt="Yacht gallery main image"
                                 fill
-                                className="object-cover rounded-2xl"
+                                className="object-fill rounded-2xl"
                                 priority
                                 unoptimized={mainImg.toLowerCase().endsWith('.dng')}
                             />
@@ -183,7 +185,7 @@ export default function BookingPage() {
                                     className={`booking-thumb relative h-24 ${mainImg === src ? 'is-active base-active-border' : ''}`}
                                     onClick={() => setMainImg(src)}
                                 >
-                                    <Image src={src} alt={`Yacht view ${idx + 1}`} fill className="object-cover rounded-xl" unoptimized={src.toLowerCase().endsWith('.dng')} />
+                                    <Image src={src} alt={`Yacht view ${idx + 1}`} fill className="object-fill rounded-xl" unoptimized={src.toLowerCase().endsWith('.dng')} />
                                 </button>
                             ))}
                         </div>
@@ -285,7 +287,7 @@ export default function BookingPage() {
                     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                         {(showAllGallery ? galleryImages : galleryImages.slice(0, 8)).map((src, idx) => (
                             <div key={idx} className="relative h-64 sm:h-80 block overflow-hidden rounded-2xl group cursor-pointer hover:shadow-xl transition-all" onClick={() => setMainImg(src)}>
-                                <Image src={src} alt={`Yacht image ${idx + 1}`} fill className="object-cover transition-transform duration-700 group-hover:scale-105" unoptimized={src.toLowerCase().endsWith('.dng')} />
+                                <Image src={src} alt={`Yacht image ${idx + 1}`} fill className="object-fill transition-transform duration-700 group-hover:scale-105" unoptimized={src.toLowerCase().endsWith('.dng')} />
                                 <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
                             </div>
                         ))}

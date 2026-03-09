@@ -16,7 +16,7 @@ export function ExperienceGridCard({ title, description, price, image, featured,
     return (
         <article className={`experience-card ${featured ? 'featured' : ''}`}>
             <div className="experience-card-media">
-                <Image src={image} alt={title} fill sizes="(max-width: 768px) 100vw, 400px" className="object-cover" />
+                <Image src={image} alt={title} fill sizes="(max-width: 768px) 100vw, 400px" className="object-fill" />
             </div>
             <div className="experience-card-body">
                 {label && <p className="experience-card-label">{label}</p>}

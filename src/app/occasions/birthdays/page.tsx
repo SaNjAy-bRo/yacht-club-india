@@ -30,7 +30,7 @@ export default function BirthdaysPage() {
                     fill
                     sizes="100vw"
                     priority
-                    className="occasion-page-hero-bg object-cover"
+                    className="occasion-page-hero-bg object-fill"
                 />
                 <div className="occasion-page-hero-overlay"></div>
                 <div className="relative mx-auto max-w-7xl px-6 py-24 sm:py-28 lg:py-36" data-reveal="true">
@@ -50,7 +50,7 @@ export default function BirthdaysPage() {
                     <div className="occasion-package-grid mt-12 grid gap-8 lg:grid-cols-3">
                         <article className="occasion-package-card flex flex-col overflow-hidden rounded-2xl bg-white border border-black/5 shadow-sm transition-transform hover:-translate-y-1">
                             <div className="relative h-60 w-full">
-                                <Image src="/images/c2.jpg" alt="Birthday classic package" fill className="object-cover" />
+                                <Image src="/images/c2.jpg" alt="Birthday classic package" fill className="object-fill" />
                             </div>
                             <div className="occasion-package-body p-8 flex flex-col flex-grow">
                                 <h3 className="text-xl font-bold font-jakarta text-textMain mb-2">Classic Birthday Sail</h3>
@@ -78,7 +78,7 @@ export default function BirthdaysPage() {
 
                         <article className="occasion-package-card flex flex-col overflow-hidden rounded-2xl bg-white border border-black/5 shadow-sm transition-transform hover:-translate-y-1">
                             <div className="relative h-60 w-full">
-                                <Image src="/images/c6.jpg" alt="Birthday signature package" fill className="object-cover" />
+                                <Image src="/images/c6.jpg" alt="Birthday signature package" fill className="object-fill" />
                             </div>
                             <div className="occasion-package-body p-8 flex flex-col flex-grow">
                                 <h3 className="text-xl font-bold font-jakarta text-textMain mb-2">Signature Birthday</h3>
@@ -106,7 +106,7 @@ export default function BirthdaysPage() {
 
                         <article className="occasion-package-card flex flex-col overflow-hidden rounded-2xl bg-white border border-black/5 shadow-sm transition-transform hover:-translate-y-1">
                             <div className="relative h-60 w-full">
-                                <Image src="/images/c7.jpg" alt="Birthday grand package" fill className="object-cover" />
+                                <Image src="/images/c7.jpg" alt="Birthday grand package" fill className="object-fill" />
                             </div>
                             <div className="occasion-package-body p-8 flex flex-col flex-grow">
                                 <h3 className="text-xl font-bold font-jakarta text-textMain mb-2">Grand Celebration Yacht</h3>

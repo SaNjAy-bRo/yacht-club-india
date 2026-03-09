@@ -21,8 +21,9 @@ const TIME_SLOT_LABELS: Record<string, string> = {
 };
 
 const ADDONS = [
-    { id: 'birthday-decor', label: 'Birthday / Celebration Decor', price: 5000 },
-    { id: 'photographer', label: 'Professional Photographer', price: 8000 },
+    { id: 'balloon-decor', label: 'Balloon decor', price: 1500 },
+    { id: 'drone-shoot', label: 'Drone shoot videography and photography', price: 3500 },
+    { id: 'pre-wedding-shoot', label: 'Pre wedding or professional shoot', price: 10000 },
     { id: 'dj-music', label: 'DJ / Music Setup', price: 7000 },
     { id: 'dining-setup', label: 'Premium Dining Setup', price: 10000 },
 ];
@@ -181,7 +182,7 @@ export default function CheckoutPage() {
                                     <div className="flex gap-4 sm:gap-6 flex-1">
                                         {/* Yacht Image */}
                                         <div className="relative w-24 h-24 sm:w-32 sm:h-24 rounded-xl overflow-hidden shrink-0 border border-black/5">
-                                            <Image src={yacht.image} alt={yacht.title} fill className="object-cover" />
+                                            <Image src={yacht.image} alt={yacht.title} fill className="object-fill" />
                                         </div>
 
                                         {/* Yacht Info */}
@@ -379,7 +380,7 @@ export default function CheckoutPage() {
                             {yacht && (
                                 <div className="flex gap-4 mb-5 pb-5 border-b border-white/10">
                                     <div className="relative w-16 h-14 rounded-lg overflow-hidden shrink-0">
-                                        <Image src={yacht.image} alt={yacht.title} fill className="object-cover" />
+                                        <Image src={yacht.image} alt={yacht.title} fill className="object-fill" />
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <p className="font-bold text-sm">{yacht.title}</p>
