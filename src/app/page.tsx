@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Anchor, MessageCircle, ChevronLeft, ChevronRight, MapPin, Compass, Instagram } from 'lucide-react';
 
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 import { ExperienceCard } from '@/components/ui/ExperienceCard';
 import { FleetCard } from '@/components/ui/FleetCard';

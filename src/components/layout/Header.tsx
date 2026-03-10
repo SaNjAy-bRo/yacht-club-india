@@ -42,6 +42,10 @@ export default function Header() {
     const hasDarkBg = isHomePage && !isScrolled;
     const logoSrc = hasDarkBg ? '/images/logo-light-highres.png' : '/images/logo-dark-highres.png';
 
+    if (pathname.startsWith('/admin')) {
+        return null;
+    }
+
     return (
         <header id="site-header" className={headerClasses}>
             <div className="header-wrap mx-auto max-w-7xl px-6 transition-all duration-300">

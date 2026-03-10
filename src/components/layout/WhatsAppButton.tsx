@@ -1,4 +1,14 @@
+'use client';
+
+import { usePathname } from 'next/navigation';
+
 export default function WhatsAppButton() {
+    const pathname = usePathname();
+
+    if (pathname.startsWith('/admin')) {
+        return null;
+    }
+
     return (
         <a href="#" className="whatsapp-float" aria-label="Chat on WhatsApp">
             <svg viewBox="0 0 24 24" aria-hidden="true">

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Anchor, Compass, ShieldCheck, Sparkles, Clock3 } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 import { ExperienceGridCard } from '@/components/ui/ExperienceGridCard';
 

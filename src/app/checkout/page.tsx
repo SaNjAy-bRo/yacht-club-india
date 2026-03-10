@@ -40,18 +40,12 @@ export default function CheckoutPage() {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [company, setCompany] = useState('');
-    const [address, setAddress] = useState('');
-    const [addressLine2, setAddressLine2] = useState('');
-    const [country, setCountry] = useState('India');
-    const [state, setState] = useState('');
-    const [city, setCity] = useState('');
-    const [pincode, setPincode] = useState('');
     const [phone, setPhone] = useState('');
-    const [paymentMethod, setPaymentMethod] = useState('razorpay');
+    const [paymentMethod, setPaymentMethod] = useState('razorpay'); // Kept state variable for completeness but form section is hidden
 
     // Toggle optional fields
     const [showCompany, setShowCompany] = useState(false);
-    const [showAddress2, setShowAddress2] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         const searchParams = new URLSearchParams(window.location.search);
@@ -106,9 +100,10 @@ export default function CheckoutPage() {
     const addonsCost = getAddonsCost();
     const subtotal = (charterCost + addonsCost) * quantity;
 
-    const handlePayment = (e: React.FormEvent) => {
+    const handlePayment = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Razorpay integration hook — this is where the gateway trigger goes
+        setIsSubmitting(true);
+
         const orderPayload = {
             yacht: yacht?.title,
             yachtId: yacht?.id,
@@ -122,11 +117,31 @@ export default function CheckoutPage() {
             addonsCost,
             quantity,
             subtotal,
-            customer: { firstName, lastName, email, phone, company, address, addressLine2, country, state, city, pincode },
+            customer: { firstName, lastName, email, phone, company },
             paymentMethod,
         };
-        console.log('Order Payload (ready for API/Admin):', orderPayload);
-        alert(`This will trigger the Razorpay gateway.\n\nOrder Total: ₹${subtotal.toLocaleString()}\n\nOrder payload logged to console for admin/API integration.`);
+
+        try {
+            const res = await fetch('/api/bookings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(orderPayload)
+            });
+
+            if (!res.ok) {
+                const errorData = await res.json();
+                throw new Error(errorData.error || 'Failed to submit booking');
+            }
+
+            // Redirect to thank you page
+            router.push('/thank-you');
+        } catch (error: any) {
+            console.error('Error submitting booking:', error);
+            alert('There was a problem submitting your request. Please try again.');
+            setIsSubmitting(false);
+        }
     };
 
     const inputClass = "w-full border border-black/10 rounded-lg px-4 py-3.5 text-sm text-textMain placeholder:text-textMuted/50 focus:outline-none focus:ring-2 focus:ring-gold/40 focus:border-gold/40 transition-all bg-white";
@@ -274,15 +289,15 @@ export default function CheckoutPage() {
 
                         {/* Information Section */}
                         <div className="bg-white rounded-2xl border border-black/5 shadow-sm p-8">
-                            <h2 className="text-xl font-bold font-jakarta text-textMain mb-6">Information</h2>
+                            <h2 className="text-xl font-bold font-jakarta text-textMain mb-6">Contact Information</h2>
                             <label className="block">
                                 <input type="email" className={inputClass} placeholder="Email address" required value={email} onChange={e => setEmail(e.target.value)} />
                             </label>
                         </div>
 
-                        {/* Billing Address */}
+                        {/* Billing Address / Contact Details Component */}
                         <div className="bg-white rounded-2xl border border-black/5 shadow-sm p-8">
-                            <h2 className="text-xl font-bold font-jakarta text-textMain mb-6">Billing Address</h2>
+                            <h2 className="text-xl font-bold font-jakarta text-textMain mb-6">Your Details</h2>
                             <div className="space-y-4">
                                 <div className="grid gap-4 sm:grid-cols-2">
                                     <input type="text" className={inputClass} placeholder="First name" required value={firstName} onChange={e => setFirstName(e.target.value)} />
@@ -297,76 +312,7 @@ export default function CheckoutPage() {
                                     <input type="text" className={inputClass} placeholder="Company name" value={company} onChange={e => setCompany(e.target.value)} />
                                 )}
 
-                                <input type="text" className={inputClass} placeholder="Street address" required value={address} onChange={e => setAddress(e.target.value)} />
-
-                                {!showAddress2 ? (
-                                    <button type="button" onClick={() => setShowAddress2(true)} className="text-sm font-semibold text-gold hover:underline flex items-center gap-1">
-                                        <Plus className="w-3.5 h-3.5" /> Add Address Line 2 (optional)
-                                    </button>
-                                ) : (
-                                    <input type="text" className={inputClass} placeholder="Apartment, suite, etc." value={addressLine2} onChange={e => setAddressLine2(e.target.value)} />
-                                )}
-
-                                <div className="grid gap-4 sm:grid-cols-2">
-                                    <div>
-                                        <label className="block text-xs font-semibold text-textMuted mb-1.5">Country / Region *</label>
-                                        <select className={inputClass} value={country} onChange={e => setCountry(e.target.value)} required>
-                                            <option value="India">India</option>
-                                            <option value="United Arab Emirates">United Arab Emirates</option>
-                                            <option value="United States">United States</option>
-                                            <option value="United Kingdom">United Kingdom</option>
-                                            <option value="Singapore">Singapore</option>
-                                        </select>
-                                    </div>
-                                    <input type="text" className={inputClass} placeholder="State / Province (optional)" value={state} onChange={e => setState(e.target.value)} />
-                                </div>
-
-                                <div className="grid gap-4 sm:grid-cols-2">
-                                    <input type="text" className={inputClass} placeholder="Town / City" required value={city} onChange={e => setCity(e.target.value)} />
-                                    <input type="text" className={inputClass} placeholder="PIN Code" value={pincode} onChange={e => setPincode(e.target.value)} />
-                                </div>
-
                                 <input type="tel" className={inputClass} placeholder="Phone" required value={phone} onChange={e => setPhone(e.target.value)} />
-                            </div>
-                        </div>
-
-                        {/* Payment Section */}
-                        <div className="bg-white rounded-2xl border border-black/5 shadow-sm p-8">
-                            <h2 className="text-xl font-bold font-jakarta text-textMain mb-2">Payment</h2>
-                            <p className="text-sm text-textMuted mb-6">All transactions are secure and encrypted.</p>
-
-                            <div className="space-y-3">
-                                {/* Razorpay option */}
-                                <label className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all ${paymentMethod === 'razorpay' ? 'border-gold bg-gold/5' : 'border-black/10 hover:border-black/20'}`}>
-                                    <div className="flex items-center gap-3">
-                                        <input type="radio" name="payment" value="razorpay" checked={paymentMethod === 'razorpay'} onChange={() => setPaymentMethod('razorpay')} className="accent-gold w-4 h-4" />
-                                        <span className="font-semibold text-textMain">Credit / Debit Cards</span>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <CreditCard className="w-5 h-5 text-textMuted" />
-                                        <span className="text-[10px] font-bold text-white bg-[#1A1F71] px-1.5 py-0.5 rounded">VISA</span>
-                                        <span className="text-[10px] font-bold text-white bg-[#EB001B] px-1.5 py-0.5 rounded">MC</span>
-                                        <span className="text-[10px] font-bold text-white bg-[#006FCF] px-1.5 py-0.5 rounded">AMEX</span>
-                                    </div>
-                                </label>
-
-                                {/* UPI option */}
-                                <label className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all ${paymentMethod === 'upi' ? 'border-gold bg-gold/5' : 'border-black/10 hover:border-black/20'}`}>
-                                    <div className="flex items-center gap-3">
-                                        <input type="radio" name="payment" value="upi" checked={paymentMethod === 'upi'} onChange={() => setPaymentMethod('upi')} className="accent-gold w-4 h-4" />
-                                        <span className="font-semibold text-textMain">UPI / Google Pay / PhonePe</span>
-                                    </div>
-                                    <Smartphone className="w-5 h-5 text-textMuted" />
-                                </label>
-
-                                {/* Net Banking option */}
-                                <label className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all ${paymentMethod === 'netbanking' ? 'border-gold bg-gold/5' : 'border-black/10 hover:border-black/20'}`}>
-                                    <div className="flex items-center gap-3">
-                                        <input type="radio" name="payment" value="netbanking" checked={paymentMethod === 'netbanking'} onChange={() => setPaymentMethod('netbanking')} className="accent-gold w-4 h-4" />
-                                        <span className="font-semibold text-textMain">Net Banking</span>
-                                    </div>
-                                    <ShieldCheck className="w-5 h-5 text-textMuted" />
-                                </label>
                             </div>
                         </div>
 
@@ -423,9 +369,21 @@ export default function CheckoutPage() {
                                 <span className="text-2xl font-black text-gold font-jakarta">₹{subtotal.toLocaleString()}</span>
                             </div>
 
-                            <button type="submit" className="w-full bg-gold hover:bg-gold/90 text-[#10233D] font-bold py-4 rounded-xl flex items-center justify-center transition-all shadow-[0_4px_20px_rgba(200,164,93,0.3)] hover:shadow-[0_4px_25px_rgba(200,164,93,0.5)] hover:-translate-y-0.5">
-                                <ShieldCheck className="w-5 h-5 mr-2" />
-                                Pay ₹{subtotal.toLocaleString()} Securely
+                            <button type="submit" disabled={isSubmitting} className="w-full bg-gold hover:bg-gold/90 text-[#10233D] font-bold py-4 rounded-xl flex items-center justify-center transition-all shadow-[0_4px_20px_rgba(200,164,93,0.3)] hover:shadow-[0_4px_25px_rgba(200,164,93,0.5)] hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed">
+                                {isSubmitting ? (
+                                    <span className="flex items-center">
+                                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Processing...
+                                    </span>
+                                ) : (
+                                    <>
+                                        <ShieldCheck className="w-5 h-5 mr-2" />
+                                        Submit Request
+                                    </>
+                                )}
                             </button>
 
                             <p className="text-center text-[10px] text-white/30 mt-4 leading-relaxed">

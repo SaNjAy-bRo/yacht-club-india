@@ -1,7 +1,16 @@
+'use client';
+
 import Link from 'next/link';
 import { Sparkles, Ship, CalendarDays, Instagram, MessageCircle, Facebook, Youtube } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 export default function Footer() {
+    const pathname = usePathname();
+
+    if (pathname.startsWith('/admin')) {
+        return null;
+    }
+
     return (
         <footer id="contact" className="footer-dark border-t border-white/12 py-16">
             <div className="footer-divider mx-auto mb-10 h-px w-full max-w-7xl"></div>
