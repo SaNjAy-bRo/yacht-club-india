@@ -139,8 +139,8 @@ export default function BookingPage() {
             return;
         }
 
-        if (guests && parseInt(guests, 10) > 12) {
-            alert('A maximum of 12 guests is allowed per yacht.');
+        if (guests && selectedYacht && parseInt(guests, 10) > parseInt(selectedYacht.capacity, 10)) {
+            alert(`A maximum of ${selectedYacht.capacity} guests is allowed for this yacht.`);
             return;
         }
 
@@ -193,12 +193,12 @@ export default function BookingPage() {
 
                     <aside id="booking-form" className="booking-panel" data-reveal="true">
                         <div className="mt-1 flex flex-wrap gap-2 text-xs">
-                            <span className="badge">Up to {selectedYacht ? selectedYacht.capacity.replace('Up to ', '').replace(' guests', '') : '___'} guests</span>
+                            <span className="badge">Up to {selectedYacht ? selectedYacht.capacity : '___'} guests</span>
                             <span className="badge">{selectedYacht ? selectedYacht.duration.replace(' hrs', '') : '___'} hrs</span>
                             <span className="badge">Crew included</span>
                         </div>
 
-                        <p className="booking-price mt-5 lg:mt-6">Starting from {selectedYacht ? selectedYacht.price : '₹____'} <span>/ hour</span></p>
+                        <p className="booking-price mt-5 lg:mt-6">Starting from {selectedYacht ? selectedYacht.price : '₹____'} <span>/ 2 hours</span></p>
 
                         <p className="booking-copy mt-6 border-t border-black/10 pt-4">Select your date and time slot to reserve this yacht. Final itinerary can be customized with concierge support.</p>
 
@@ -209,8 +209,8 @@ export default function BookingPage() {
                                     <input type="date" min={minDate} value={date} onChange={(e) => setDate(e.target.value)} required />
                                 </label>
                                 <label className="booking-field">
-                                    <span>Guests (Max 12)</span>
-                                    <input type="number" min="1" max="12" placeholder="No. of guests" value={guests} onChange={(e) => setGuests(e.target.value)} required />
+                                    <span>Guests (Max {selectedYacht ? selectedYacht.capacity : '12'})</span>
+                                    <input type="number" min="1" max={selectedYacht ? selectedYacht.capacity : "12"} placeholder="No. of guests" value={guests} onChange={(e) => setGuests(e.target.value)} required />
                                 </label>
                             </div>
                             <label className="booking-field">

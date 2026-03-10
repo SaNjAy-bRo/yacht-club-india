@@ -42,7 +42,7 @@ function HeroSection() {
             <Button href="/booking" variant="gold" icon={Anchor}>Book Now</Button>
             <Button href="#" variant="outline" icon={MessageCircle}>Chat on WhatsApp</Button>
           </div>
-          <p className="mt-4 text-sm text-[#C4D0DD]">Starting from ₹____ / hour</p>
+          <p className="mt-4 text-sm text-[#C4D0DD]">Starting from ₹7,500 / hour</p>
         </div>
       </div>
     </section>
