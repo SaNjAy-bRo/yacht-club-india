@@ -35,6 +35,8 @@ export default function AdminDashboardPage() {
     const [bookings, setBookings] = useState<BookingRow[]>([]);
     const [selectedBooking, setSelectedBooking] = useState<BookingRow | null>(null);
     const [loading, setLoading] = useState(true);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [activeFilter, setActiveFilter] = useState<"all" | "recent" | "paid" | "pending">("all");
 
     useEffect(() => {
         const fetchBookings = async () => {
@@ -108,8 +110,48 @@ export default function AdminDashboardPage() {
         },
     ]
 
+    const filteredBookings = bookings.filter((b) => {
+        const matchesSearch =
+            searchQuery === "" ||
+            b.customer_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            b.customer_email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            b.yacht_title.toLowerCase().includes(searchQuery.toLowerCase());
+
+        const matchesFilter = (() => {
+            if (activeFilter === "all") return true;
+            if (activeFilter === "paid") return b.status === "paid";
+            if (activeFilter === "pending") return b.status === "pending";
+            if (activeFilter === "recent") {
+                const createdDate = new Date(b.created_at || b.booking_date);
+                const sevenDaysAgo = new Date();
+                sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+                return createdDate >= sevenDaysAgo;
+            }
+            return true;
+        })();
+
+        return matchesSearch && matchesFilter;
+    });
+
     const totalRevenue = bookings.filter(b => b.status === 'paid').reduce((sum: number, b: BookingRow) => sum + (Number(b.subtotal) || 0), 0);
     const pendingRequests = bookings.filter((b: BookingRow) => b.status === 'pending').length;
+
+    const toolbar = (
+        <div className="flex bg-gray-100/80 p-1 rounded-lg border border-gray-200 shadow-sm">
+            {(["all", "recent", "paid", "pending"] as const).map((f) => (
+                <button
+                    key={f}
+                    onClick={() => setActiveFilter(f)}
+                    className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200 capitalize whitespace-nowrap ${activeFilter === f
+                        ? "bg-white text-gold shadow-sm"
+                        : "text-gray-500 hover:text-gray-700 hover:bg-white/50"
+                        }`}
+                >
+                    {f}
+                </button>
+            ))}
+        </div>
+    );
 
     return (
         <>
@@ -142,9 +184,13 @@ export default function AdminDashboardPage() {
 
             <Card className="mt-4">
                 <CardHeader>
-                    <CardTitle>Recent Bookings</CardTitle>
+                    <CardTitle className="capitalize">{activeFilter} Bookings</CardTitle>
                     <CardDescription>
-                        A quick overview of the latest booking requests. Click a row to see full details.
+                        {activeFilter === 'recent'
+                            ? "Bookings from the last 7 days."
+                            : activeFilter === 'all'
+                                ? "Overview of every booking request received."
+                                : `Overview of all ${activeFilter} bookings.`}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -153,8 +199,11 @@ export default function AdminDashboardPage() {
                     ) : (
                         <DataTable
                             columns={columns}
-                            data={bookings}
-                            searchPlaceholder="Search bookings..."
+                            data={filteredBookings}
+                            searchPlaceholder="Search by name, email, or yacht..."
+                            searchValue={searchQuery}
+                            onSearchChange={setSearchQuery}
+                            toolbar={toolbar}
                             onRowClick={(row) => setSelectedBooking(row)}
                         />
                     )}

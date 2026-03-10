@@ -15,6 +15,9 @@ interface DataTableProps<T> {
     data: T[]
     onRowClick?: (row: T) => void
     searchPlaceholder?: string
+    searchValue?: string
+    onSearchChange?: (value: string) => void
+    toolbar?: React.ReactNode
 }
 
 export function DataTable<T extends { id: string | number }>({
@@ -22,17 +25,25 @@ export function DataTable<T extends { id: string | number }>({
     data,
     onRowClick,
     searchPlaceholder = "Search records...",
+    searchValue,
+    onSearchChange,
+    toolbar
 }: DataTableProps<T>) {
     return (
         <div className="flex flex-col gap-4">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="relative w-full max-w-sm">
                     <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
                         type="search"
                         placeholder={searchPlaceholder}
                         className="pl-8"
+                        value={searchValue}
+                        onChange={(e) => onSearchChange?.(e.target.value)}
                     />
+                </div>
+                <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0">
+                    {toolbar}
                 </div>
             </div>
 
