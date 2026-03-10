@@ -144,15 +144,8 @@ export default function BookingPage() {
             return;
         }
 
-        const params = new URLSearchParams();
-        if (selectedYacht) params.set('yachtId', selectedYacht.id);
-        params.set('date', date);
-        params.set('timeSlot', timeSlot);
-        if (guests) params.set('guests', guests);
-        params.set('extraHours', String(extraHours));
-        if (selectedAddons.length > 0) params.set('addons', selectedAddons.join(','));
-
-        router.push(`/checkout?${params.toString()}`);
+        // Redirect to a thank you page for now
+        router.push(`/thank-you`);
     };
 
     return (
@@ -271,7 +264,7 @@ export default function BookingPage() {
 
                             <button type="submit" className="btn-gold btn-icon booking-submit w-full mt-2 flex justify-center" style={{ width: '100%' }}>
                                 <Anchor className="w-5 h-5" />
-                                <span>Proceed to Checkout</span>
+                                <span>Submit Request</span>
                             </button>
                         </form>
                     </aside>
