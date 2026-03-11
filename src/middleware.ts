@@ -1,14 +1,14 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { updateSession } from './utils/supabase/middleware'
+import { verifyAuth } from './lib/auth'
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl
 
-    // 1. Update the Supabase session natively
-    const { supabaseResponse, user } = await updateSession(request)
-
     // 2. Protect /admin routes
     if (pathname.startsWith('/admin')) {
+        const payload = await verifyAuth()
+        const user = payload ? payload.userId : null
+
         // Skip protection for the login/auth pages themselves
         if (
             pathname === '/admin/login' ||
@@ -19,7 +19,7 @@ export async function middleware(request: NextRequest) {
             if (user && pathname !== '/admin/update-password') {
                 return NextResponse.redirect(new URL('/admin', request.url))
             }
-            return supabaseResponse
+            return NextResponse.next()
         }
 
         // If no user is logged in, redirect to the login page
@@ -28,7 +28,7 @@ export async function middleware(request: NextRequest) {
         }
     }
 
-    return supabaseResponse
+    return NextResponse.next()
 }
 
 export const config = {

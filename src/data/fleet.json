@@ -426,5 +426,160 @@
             "type": "best",
             "label": "Premium Interior"
         }
+    },
+    {
+        "id": "amzonite",
+        "title": "Amzonite Yacht",
+        "image": "/images/yacht/amazonite/amzonite-1.jpg",
+        "images": [
+            "/images/yacht/amazonite/amzonite-1.jpg",
+            "/images/yacht/amazonite/amzonite-2.jpg",
+            "/images/yacht/amazonite/amzonite-3.jpg",
+            "/images/yacht/amazonite/amzonite-4.jpg",
+            "/images/yacht/amazonite/amzonite-5.jpg",
+            "/images/yacht/amazonite/amzonite-6.jpg",
+            "/images/yacht/amazonite/amzonite-7.jpg",
+            "/images/yacht/amazonite/amzonite-8.jpg",
+            "/images/yacht/amazonite/amzonite-9.jpg",
+            "/images/yacht/amazonite/amzonite-10.jpg",
+            "/images/yacht/amazonite/amzonite-11.jpg",
+            "/images/yacht/amazonite/amzonite-12.jpg"
+        ],
+        "capacity": "16",
+        "duration": "2",
+        "price": "₹21,000",
+        "pricePerHour": 10500,
+        "series": "YC80",
+        "route": "Mandovi River – Miramar Beach and surrounding scenic coastline.",
+        "features": [
+            "Spacious Bedroom with AC",
+            "Lounge area with AC",
+            "Perfect for couple",
+            "Clean and well-maintained washroom",
+            "Open deck and seating on top deck with ample space",
+            "The one and only black yacht in goa with unique and highly in demand"
+        ],
+        "inclusions": [
+            "Ice",
+            "Drinking water",
+            "Soft drinks",
+            "Music system",
+            "Cutlery"
+        ],
+        "foodOptions": "Guests are allowed to bring their own food and beverages.",
+        "bestSuitedFor": [
+            "Pre-wedding photoshoots",
+            "Birthday celebrations",
+            "Couple experiences",
+            "Video shoot"
+        ],
+        "highlight": "The yacht is made for style and luxury and this one one a kind yacht and very unique and high in demand",
+        "tag": {
+            "type": "new",
+            "label": "Black Yacht"
+        }
+    },
+    {
+        "id": "rinker",
+        "title": "Rinker Yacht",
+        "image": "/images/yacht/rinker yacht/rinker-1.jpg",
+        "images": [
+            "/images/yacht/rinker yacht/rinker-1.jpg",
+            "/images/yacht/rinker yacht/rinker-2.jpg",
+            "/images/yacht/rinker yacht/rinker-3.jpg",
+            "/images/yacht/rinker yacht/rinker-4.jpg",
+            "/images/yacht/rinker yacht/rinker-5.jpg",
+            "/images/yacht/rinker yacht/rinker-6.jpg",
+            "/images/yacht/rinker yacht/rinker-7.jpg",
+            "/images/yacht/rinker yacht/rinker-8.jpg",
+            "/images/yacht/rinker yacht/rinker-9.jpg",
+            "/images/yacht/rinker yacht/rinker-10.jpg",
+            "/images/yacht/rinker yacht/rinker-11.jpg",
+            "/images/yacht/rinker yacht/rinker-12.jpg"
+        ],
+        "capacity": "6",
+        "duration": "2",
+        "price": "₹13,000",
+        "pricePerHour": 6500,
+        "series": "YC79",
+        "route": "Mandovi River – Miramar Beach and surrounding scenic coastline.",
+        "features": [
+            "Spacious Bedroom",
+            "Lounge area",
+            "Perfect for couple",
+            "Clean and well-maintained washroom",
+            "Open deck with ample space"
+        ],
+        "inclusions": [
+            "Ice",
+            "Drinking water",
+            "Soft drinks",
+            "Music system",
+            "Cutlery"
+        ],
+        "foodOptions": "Guests are allowed to bring their own food and beverages.",
+        "bestSuitedFor": [
+            "Pre-wedding photoshoots",
+            "Birthday celebrations",
+            "Couple experiences"
+        ],
+        "highlight": "The yacht is US made and brand speak itself for it perfect for couple and budget friendly",
+        "tag": {
+            "type": "best",
+            "label": "Budget Friendly"
+        }
+    },
+    {
+        "id": "nityay",
+        "title": "Nityay",
+        "image": "/images/yacht/nityay/nityay-1.jpg",
+        "images": [
+            "/images/yacht/nityay/nityay-1.jpg",
+            "/images/yacht/nityay/nityay-2.jpg",
+            "/images/yacht/nityay/nityay-3.jpg",
+            "/images/yacht/nityay/nityay-4.jpg",
+            "/images/yacht/nityay/nityay-5.jpg",
+            "/images/yacht/nityay/nityay-6.jpg",
+            "/images/yacht/nityay/nityay-7.jpg",
+            "/images/yacht/nityay/nityay-8.jpg",
+            "/images/yacht/nityay/nityay-9.jpg",
+            "/images/yacht/nityay/nityay-10.jpg",
+            "/images/yacht/nityay/nityay-11.jpg",
+            "/images/yacht/nityay/nityay-12.jpg"
+        ],
+        "capacity": "25",
+        "duration": "2",
+        "price": "₹25,000",
+        "pricePerHour": 12500,
+        "series": "YC87",
+        "route": "Mandovi River – Miramar Beach and surrounding scenic coastline.",
+        "features": [
+            "Spacious Bedroom with ac",
+            "Lounge area with ac",
+            "Perfect for couple and big groups",
+            "Clean and well-maintained washroom",
+            "Open deck and seating on top deck with ample space and huge space on back as well",
+            "This is luxury yacht and one of the big and best Yachts in goa"
+        ],
+        "inclusions": [
+            "Ice",
+            "Drinking water",
+            "Soft drinks",
+            "Music system",
+            "Cutlery"
+        ],
+        "foodOptions": "Guests are allowed to bring their own food and beverages.",
+        "bestSuitedFor": [
+            "Pre-wedding photoshoots",
+            "Birthday celebrations",
+            "Video shoot",
+            "Open beach experience",
+            "Big group party"
+        ],
+        "highlight": "The yacht is made for style and luxury and is perfect for big groups upto 25 and highest booked yacht",
+        "tag": {
+            "type": "featured",
+            "label": "Highest Booked"
+        }
     }
 ]

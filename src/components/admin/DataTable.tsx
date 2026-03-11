@@ -32,30 +32,30 @@ export function DataTable<T extends { id: string | number }>({
     return (
         <div className="flex flex-col gap-4">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="relative w-full max-w-sm">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                <div className="relative w-full max-w-sm group">
+                    <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400 group-focus-within:text-[#10233D] transition-colors" />
                     <Input
                         type="search"
                         placeholder={searchPlaceholder}
-                        className="pl-8"
+                        className="pl-9 bg-slate-50/50 border-slate-200 focus-visible:ring-1 focus-visible:ring-[#10233D]/20 rounded-xl transition-all h-10"
                         value={searchValue}
                         onChange={(e) => onSearchChange?.(e.target.value)}
                     />
                 </div>
-                <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0">
+                <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0 scrollbar-hide">
                     {toolbar}
                 </div>
             </div>
 
-            <div className="rounded-md border">
+            <div className="rounded-2xl border border-slate-100 bg-white overflow-hidden shadow-sm">
                 <div className="w-full overflow-auto">
                     <table className="w-full caption-bottom text-sm">
-                        <thead className="[&_tr]:border-b">
-                            <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                        <thead className="[&_tr]:border-b bg-slate-50/80">
+                            <tr className="border-b border-slate-100 uppercase tracking-widest text-[10px] text-slate-500 font-bold">
                                 {columns.map((col) => (
                                     <th
                                         key={col.key.toString()}
-                                        className="h-12 px-4 text-left align-middle font-medium text-muted-foreground"
+                                        className="h-12 px-6 text-left align-middle"
                                     >
                                         {col.label}
                                     </th>
@@ -77,10 +77,10 @@ export function DataTable<T extends { id: string | number }>({
                                     <tr
                                         key={row.id}
                                         onClick={() => onRowClick?.(row)}
-                                        className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted cursor-pointer"
+                                        className="border-b border-slate-50 transition-colors hover:bg-slate-50/50 cursor-pointer group"
                                     >
-                                        {columns.map((col) => (
-                                            <td key={col.key.toString()} className="p-4 align-middle">
+                                        {columns.map((col, idx) => (
+                                            <td key={col.key.toString()} className={`p-4 px-6 align-middle ${idx === 0 ? 'font-medium text-slate-900' : 'text-slate-600'}`}>
                                                 {col.render ? col.render(row) : String(row[col.key as keyof T])}
                                             </td>
                                         ))}
@@ -93,15 +93,15 @@ export function DataTable<T extends { id: string | number }>({
             </div>
 
             {/* Pagination Placeholder */}
-            <div className="flex items-center justify-end space-x-2 py-4">
-                <div className="flex-1 text-sm text-muted-foreground">
-                    Showing 1 to {data.length} of {data.length} records.
+            <div className="flex items-center justify-between py-2 px-1">
+                <div className="text-xs font-medium text-slate-400">
+                    Showing <span className="text-slate-900">{data.length}</span> records
                 </div>
-                <div className="space-x-2">
-                    <Button variant="outline" size="sm" disabled>
+                <div className="flex items-center gap-2">
+                    <Button variant="outline" size="sm" className="h-8 rounded-lg border-slate-200 text-slate-600 font-medium" disabled>
                         Previous
                     </Button>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" className="h-8 rounded-lg border-slate-200 text-slate-600 font-medium hover:bg-slate-50 hover:text-slate-900">
                         Next
                     </Button>
                 </div>

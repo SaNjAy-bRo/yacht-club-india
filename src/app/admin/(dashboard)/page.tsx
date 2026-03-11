@@ -95,17 +95,21 @@ export default function AdminDashboardPage() {
             key: "status",
             label: "Paid Status",
             render: (row) => (
-                <label className="flex items-center gap-2 cursor-pointer no-print" onClick={(e) => e.stopPropagation()}>
-                    <input
-                        type="checkbox"
-                        checked={row.status === 'paid'}
-                        onChange={() => handleTogglePaid(row.id, row.status)}
-                        className="w-4 h-4 text-[#D4AF37] border-gray-300 rounded focus:ring-[#D4AF37]"
-                    />
-                    <span className={`text-sm font-medium ${row.status === 'paid' ? 'text-green-600' : 'text-orange-500'}`}>
+                <div onClick={(e) => e.stopPropagation()} className="flex items-center">
+                    <button
+                        onClick={() => handleTogglePaid(row.id, row.status)}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#10233D] focus:ring-offset-2 ${row.status === 'paid' ? 'bg-[#D4AF37]' : 'bg-slate-200'
+                            }`}
+                    >
+                        <span
+                            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${row.status === 'paid' ? 'translate-x-6' : 'translate-x-1'
+                                }`}
+                        />
+                    </button>
+                    <span className={`ml-3 text-xs font-bold uppercase tracking-wider ${row.status === 'paid' ? 'text-amber-600' : 'text-slate-400'}`}>
                         {row.status === 'paid' ? 'Paid' : 'Pending'}
                     </span>
-                </label>
+                </div>
             )
         },
     ]
@@ -212,19 +216,19 @@ export default function AdminDashboardPage() {
 
             {/* Booking Details Modal */}
             {selectedBooking && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-                    <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col relative animate-in zoom-in-95 duration-200">
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-md p-4 animate-in fade-in duration-300">
+                    <div className="bg-white rounded-[2rem] shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col relative animate-in zoom-in-95 duration-300 border border-white/20">
                         {/* Header */}
-                        <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50/50">
+                        <div className="flex items-center justify-between px-8 py-6 border-b border-slate-100 bg-white rounded-t-[2rem]">
                             <div>
-                                <h3 className="text-xl font-bold text-gray-900">Booking Details</h3>
-                                <p className="text-sm text-gray-500 mt-1">ID: {selectedBooking.id}</p>
+                                <h3 className="text-2xl font-black text-[#10233D] tracking-tight">Booking Overview</h3>
+                                <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mt-1.5">ID: {selectedBooking.id}</p>
                             </div>
                             <button
                                 onClick={() => setSelectedBooking(null)}
-                                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                                className="p-2.5 rounded-full hover:bg-slate-50 transition-colors text-slate-400 hover:text-[#10233D]"
                             >
-                                <svg className="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                             </button>
                         </div>
 
@@ -287,57 +291,57 @@ export default function AdminDashboardPage() {
 
                             {/* Add-ons & Pricing */}
                             <div className="space-y-4">
-                                <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Financials & Extras</h4>
-                                <div className="border border-gray-100 rounded-xl overflow-hidden">
-                                    <div className="p-4 space-y-3 bg-white">
+                                <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Financial Summary</h4>
+                                <div className="border border-slate-100 rounded-2xl overflow-hidden shadow-sm">
+                                    <div className="p-6 space-y-4 bg-white">
                                         <div className="flex justify-between items-center">
-                                            <span className="text-gray-600">Base Charter Cost</span>
-                                            <span className="font-medium">₹{(Number(selectedBooking.charter_cost) || 0).toLocaleString()}</span>
+                                            <span className="text-slate-500 font-medium">Base Charter Cost</span>
+                                            <span className="font-semibold text-slate-900">₹{(Number(selectedBooking.charter_cost) || 0).toLocaleString()}</span>
                                         </div>
 
                                         {/* Addons List */}
                                         {selectedBooking.addons && Array.isArray(selectedBooking.addons) && selectedBooking.addons.length > 0 && (
-                                            <div className="py-2 pl-4 border-l-2 border-gray-100 space-y-2">
-                                                <span className="text-xs text-gray-400 block mb-1">Selected Add-ons</span>
+                                            <div className="py-3 pl-5 border-l-2 border-slate-100 space-y-2.5">
+                                                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 block mb-2">Selected Enhancements</span>
                                                 {selectedBooking.addons.map((addon: string, idx: number) => (
                                                     <div key={idx} className="flex justify-between items-center text-sm">
-                                                        <span className="text-gray-600 flex items-center gap-2">
-                                                            <div className="w-1 h-1 bg-gold rounded-full"></div>
+                                                        <span className="text-slate-600 flex items-center gap-2.5 font-medium">
+                                                            <div className="w-1.5 h-1.5 bg-gold rounded-full"></div>
                                                             <span className="capitalize">{addon.replace(/-/g, ' ')}</span>
                                                         </span>
                                                     </div>
                                                 ))}
-                                                <div className="flex justify-between items-center pt-2 mt-2 border-t border-dashed border-gray-200">
-                                                    <span className="text-xs text-gray-500">Add-ons Total</span>
-                                                    <span className="text-sm font-medium">₹{(Number(selectedBooking.addons_cost) || 0).toLocaleString()}</span>
+                                                <div className="flex justify-between items-center pt-3 mt-3 border-t border-dashed border-slate-200">
+                                                    <span className="text-xs font-semibold text-slate-500">Enhancements Total</span>
+                                                    <span className="text-sm font-bold text-slate-900">₹{(Number(selectedBooking.addons_cost) || 0).toLocaleString()}</span>
                                                 </div>
                                             </div>
                                         )}
 
-                                        <div className="flex justify-between items-center pt-3 border-t border-gray-100">
-                                            <span className="font-bold text-gray-900">Total Amount</span>
-                                            <span className="text-xl font-black text-gold">₹{(Number(selectedBooking.subtotal) || 0).toLocaleString()}</span>
+                                        <div className="flex justify-between items-center pt-5 mt-2 border-t border-slate-100">
+                                            <span className="font-bold text-slate-400 uppercase tracking-widest text-xs">Total Amount</span>
+                                            <span className="text-3xl font-black text-[#10233D]">₹{(Number(selectedBooking.subtotal) || 0).toLocaleString()}</span>
                                         </div>
                                     </div>
-                                    <div className={`p-4 flex justify-between items-center ${selectedBooking.status === 'paid' ? 'bg-green-50' : 'bg-orange-50'}`}>
-                                        <span className={`font-medium ${selectedBooking.status === 'paid' ? 'text-green-800' : 'text-orange-800'}`}>Current Status</span>
-                                        <div className="flex items-center gap-3">
-                                            <span className={`px-3 py-1 rounded-full text-sm font-bold ${selectedBooking.status === 'paid' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
-                                                {selectedBooking.status.toUpperCase()}
-                                            </span>
-                                            <label className="flex items-center gap-2 cursor-pointer bg-white px-3 py-1.5 rounded-lg shadow-sm border border-black/5 hover:bg-gray-50 transition-colors">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={selectedBooking.status === 'paid'}
-                                                    onChange={async () => {
+                                    <div className={`p-6 flex justify-between items-center border-t border-slate-100/50 ${selectedBooking.status === 'paid' ? 'bg-emerald-50/50' : 'bg-amber-50/50'}`}>
+                                        <span className={`text-xs font-bold uppercase tracking-widest ${selectedBooking.status === 'paid' ? 'text-emerald-600' : 'text-amber-600'}`}>Current Status</span>
+                                        <div className="flex items-center gap-4">
+                                            <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100">
+                                                <span className="text-sm font-semibold text-slate-600">Mark as {selectedBooking.status === 'paid' ? 'Pending' : 'Paid'}</span>
+                                                <button
+                                                    onClick={async () => {
                                                         await handleTogglePaid(selectedBooking.id, selectedBooking.status);
-                                                        // Update local modal state to reflect the optimistic update
                                                         setSelectedBooking(prev => prev ? { ...prev, status: prev.status === 'paid' ? 'pending' : 'paid' } : null)
                                                     }}
-                                                    className="w-4 h-4 text-[#D4AF37] border-gray-300 rounded focus:ring-[#D4AF37]"
-                                                />
-                                                <span className="text-sm font-medium text-gray-700">Mark as {selectedBooking.status === 'paid' ? 'Pending' : 'Paid'}</span>
-                                            </label>
+                                                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#10233D] focus:ring-offset-2 ${selectedBooking.status === 'paid' ? 'bg-[#D4AF37]' : 'bg-slate-200'
+                                                        }`}
+                                                >
+                                                    <span
+                                                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${selectedBooking.status === 'paid' ? 'translate-x-6' : 'translate-x-1'
+                                                            }`}
+                                                    />
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

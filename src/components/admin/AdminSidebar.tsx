@@ -15,8 +15,8 @@ export function AdminSidebar() {
     const pathname = usePathname()
 
     return (
-        <div className="flex h-full w-64 flex-col border-r bg-muted/20">
-            <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+        <div className="flex h-full w-64 flex-col border-r border-[#10233D]/10 bg-slate-50/80 backdrop-blur-md">
+            <div className="flex h-16 items-center border-b border-[#10233D]/5 px-4 lg:px-6">
                 <Link href="/" className="flex items-center gap-2 font-semibold hover:opacity-80 transition-opacity">
                     <Image
                         src="/images/logo-dark-highres.png"
@@ -28,8 +28,8 @@ export function AdminSidebar() {
                     />
                 </Link>
             </div>
-            <div className="flex-1 overflow-auto py-2">
-                <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+            <div className="flex-1 overflow-auto py-6">
+                <nav className="grid items-start px-4 text-sm font-medium gap-2">
                     {navigation.map((item) => {
                         const isActive = pathname === item.href
                         return (
@@ -37,13 +37,13 @@ export function AdminSidebar() {
                                 key={item.href}
                                 href={item.href}
                                 className={cn(
-                                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                                    "flex items-center gap-3 rounded-xl px-4 py-3 transition-all duration-300",
                                     isActive
-                                        ? "bg-muted text-primary"
-                                        : "text-muted-foreground"
+                                        ? "bg-white text-[#10233D] shadow-sm shadow-[#10233D]/5 font-semibold"
+                                        : "text-slate-500 hover:text-[#10233D] hover:bg-white/50"
                                 )}
                             >
-                                <item.icon className="h-4 w-4" />
+                                <item.icon className={cn("h-4 w-4", isActive ? "text-gold" : "text-slate-400")} />
                                 {item.name}
                             </Link>
                         )
